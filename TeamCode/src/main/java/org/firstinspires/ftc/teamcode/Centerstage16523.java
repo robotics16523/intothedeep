@@ -62,7 +62,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Omni_v2", group="Linear OpMode")
+@TeleOp(name="Omni_v5", group="Linear OpMode")
 public class Centerstage16523 extends LinearOpMode {
 
     // Declare OpMode members for each of the 4 motors.
@@ -81,6 +81,7 @@ public class Centerstage16523 extends LinearOpMode {
         leftBackDrive  = hardwareMap.get(DcMotor.class, "left_back_drive");
         rightFrontDrive = hardwareMap.get(DcMotor.class, "right_front_drive");
         rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
+        // arm = hardwareMap.get(DcMotor.class, "arm_motor");
 
         // ########################################################################################
         // !!!            IMPORTANT Drive Information. Test your motor directions.            !!!!!
