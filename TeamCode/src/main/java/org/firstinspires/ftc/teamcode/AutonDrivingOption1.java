@@ -14,7 +14,7 @@ public class AutonDrivingOption1 extends LinearOpMode {
         RobotHardwareMethods16523 robot = new RobotHardwareMethods16523();
         if (opModeIsActive()){
             robot.init(hardwareMap);
-            robot.forwardbackwards(20,.5);
+            robot.drive(20,.5);
 
         }
     }

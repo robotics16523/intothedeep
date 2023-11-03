@@ -66,11 +66,12 @@ public class RobotHardwareMethods16523 {
     public DcMotor rightFrontDrive = null;
     public DcMotor rightBackDrive = null;
     public DcMotor arm = null;
+    public Servo grabber = null;
     HardwareMap hardwaremap = null;
     double strafe_tick = (537.7/(3.1415926 * 9.6));
     double forwardbackwards_tick = (537.7/(3.1415926 * 9.6));
-
-
+    public final double OPEN_POSITION = 0.0;
+    public final double CLOSED_POSITION = 0.0;
 
 
 
@@ -86,26 +87,28 @@ public class RobotHardwareMethods16523 {
         rightFrontDrive = hardwareMap.get(DcMotor.class, "right_front_drive");
         rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
         arm = hardwareMap.get(DcMotor.class, "arm");
-        //grabber = hardwareMap.get(DcMotor.class,"arm");
+        grabber = hardwareMap.get(Servo.class,"grabber");
         leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
         arm.setDirection(DcMotor.Direction.FORWARD);
-
-
-
-
-
-
-
-
+        grabber.setDirection(Servo.Direction.FORWARD);
         myOpMode.telemetry.addData(">", "Hardware Initialized");
         myOpMode.telemetry.update();
     }
 
+    public void toggleGrabber() {
+        double grabberPosition = 0.0;
+        grabberPosition = grabber.getPosition();
+        if(grabberPosition == CLOSED_POSITION) {
+            grabber.setPosition(OPEN_POSITION);
+        } else {
+            grabber.setPosition(CLOSED_POSITION);
+        }
+    }
     public void strafe(double distance, double power) {
-        int leftfronttarget = leftFrontDrive.getCurrentPosition() + (int)(distance * strafe_tick);
+        int leftfronttarget = leftFrontDrive.getCurrentPosition() + (int)(distance * strafe_tick); //offset
         int leftbacktarget = leftBackDrive.getCurrentPosition() - (int)(distance * strafe_tick);
         int rightfronttarget = rightFrontDrive.getCurrentPosition() - (int)(distance * strafe_tick);
         int rightbacktarget = rightBackDrive.getCurrentPosition() + (int)(distance * strafe_tick);
@@ -125,7 +128,7 @@ public class RobotHardwareMethods16523 {
         rightFrontDrive.setPower(Math.abs(power));
         rightBackDrive.setPower(Math.abs(power));
 
-        while(leftFrontDrive.isBusy() && leftBackDrive.isBusy() && rightFrontDrive.isBusy() && rightBackDrive.isBusy()){
+        while(leftFrontDrive.isBusy() && leftBackDrive.isBusy() && rightFrontDrive.isBusy() && rightBackDrive.isBusy()){ //invert syntax?
 
         }
         leftFrontDrive.setPower(0);
@@ -140,7 +143,7 @@ public class RobotHardwareMethods16523 {
 
     }
 
-    public void forwardbackwards(double distance, double power) {
+    public void drive(double distance, double power) {
         int leftfronttarget = leftFrontDrive.getCurrentPosition() + (int)(distance * forwardbackwards_tick);
         int leftbacktarget = leftBackDrive.getCurrentPosition() + (int)(distance * forwardbackwards_tick);
         int rightfronttarget = rightFrontDrive.getCurrentPosition() + (int)(distance * forwardbackwards_tick);
