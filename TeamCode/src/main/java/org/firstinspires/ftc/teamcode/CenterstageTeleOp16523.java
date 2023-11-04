@@ -31,7 +31,6 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /*
@@ -63,7 +62,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  */
 
 @TeleOp(name="Omni_v5", group="Linear OpMode")
-public class Centerstage16523 extends LinearOpMode {
+public class CenterstageTeleOp16523 extends LinearOpMode {
     RobotHardwareMethods16523 robot = new RobotHardwareMethods16523();
     private ElapsedTime runtime = new ElapsedTime();
     @Override
@@ -72,6 +71,7 @@ public class Centerstage16523 extends LinearOpMode {
 
 
         waitForStart();
+//        robot.grabber.setPosition(0);
         runtime.reset();
 
         // run until the end of the match (driver presses STOP)
@@ -83,7 +83,7 @@ public class Centerstage16523 extends LinearOpMode {
             double lateral =  gamepad1.left_stick_x;
             double yaw     =  gamepad1.right_stick_x;
             double arm = -gamepad2.left_stick_y;
-            //double grabber = gamepad2.a;
+//            boolean grabber = gamepad2.a;
 
             // Combine the joystick requests for each axis-motion to determine each wheel's power.
             // Set up a variable for each drive wheel to save the power level for telemetry.
@@ -130,6 +130,12 @@ public class Centerstage16523 extends LinearOpMode {
             robot.rightFrontDrive.setPower(rightFrontPower);
             robot.leftBackDrive.setPower(leftBackPower);
             robot.rightBackDrive.setPower(rightBackPower);
+
+            if(gamepad2.a)
+                robot.openGrabber();
+
+            if(gamepad2.b)
+                robot.closeGrabber();
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());

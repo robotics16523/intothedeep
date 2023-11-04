@@ -36,6 +36,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 /*
  * This file works in conjunction with the External Hardware Class sample called: ConceptExternalHardwareClass.java
  * Please read the explanations in that Sample about how to use this class definition.
@@ -58,7 +60,7 @@ import com.qualcomm.robotcore.util.Range;
 public class RobotHardwareMethods16523 {
 
     /* Declare OpMode members. */
-    private LinearOpMode myOpMode = null;   // gain access to methods in the calling OpMode.
+//    private LinearOpMode myOpMode = null;   // gain access to methods in the calling OpMode.
 
     // Define Motor and Servo objects  (Make them private so they can't be accessed externally)
     public DcMotor leftFrontDrive = null;
@@ -67,13 +69,14 @@ public class RobotHardwareMethods16523 {
     public DcMotor rightBackDrive = null;
     public DcMotor arm = null;
     public Servo grabber = null;
+    public Servo droneLauncher = null;
     HardwareMap hardwaremap = null;
     double strafe_tick = (537.7/(3.1415926 * 9.6));
     double forwardbackwards_tick = (537.7/(3.1415926 * 9.6));
-    public final double OPEN_POSITION = 0.0;
-    public final double CLOSED_POSITION = 0.0;
-
-
+    public final double GRABBER_OPEN_POSITION = 0.2; // change ALL of these
+    public final double GRABBER_CLOSED_POSITION = 1.0;
+    public final double DRONE_OPEN_POSITION = 0.0;
+    public final double DRONE_CLOSED_POSITION = 0.0;
 
     /**
      * Initialize all the robot's hardware.
@@ -94,18 +97,62 @@ public class RobotHardwareMethods16523 {
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
         arm.setDirection(DcMotor.Direction.FORWARD);
         grabber.setDirection(Servo.Direction.FORWARD);
-        myOpMode.telemetry.addData(">", "Hardware Initialized");
-        myOpMode.telemetry.update();
+//        myOpMode.telemetry.addData(">", "Hardware Initialized");
+//        myOpMode.telemetry.update();
     }
 
+    public void openGrabber(){
+        grabber.setPosition(GRABBER_OPEN_POSITION);
+    }
+
+    public void closeGrabber(){
+        grabber.setPosition(GRABBER_CLOSED_POSITION);
+    }
     public void toggleGrabber() {
-        double grabberPosition = 0.0;
-        grabberPosition = grabber.getPosition();
-        if(grabberPosition == CLOSED_POSITION) {
-            grabber.setPosition(OPEN_POSITION);
-        } else {
-            grabber.setPosition(CLOSED_POSITION);
+//        double grabberPosition = grabber.getPosition();
+
+        boolean isClosed = grabber.getPosition() > GRABBER_OPEN_POSITION;
+
+        if(isClosed)
+            grabber.setPosition(GRABBER_OPEN_POSITION);
+
+        if(!isClosed)
+            grabber.setPosition(GRABBER_CLOSED_POSITION);
+
+//        if(grabberPosition  <= GRABBER_OPEN_POSITION) {
+//            grabber.setPosition(GRABBER_CLOSED_POSITION);
+//        } else if(grabberPosition >= GRABBER_CLOSED_POSITION && grabberPosition < GRABBER_OPEN_POSITION){
+//            grabber.setPosition(GRABBER_CLOSED_POSITION);
+//        } else {
+//            grabber.setPosition(GRABBER_OPEN_POSITION);
+//        }
+    }
+    public double getGrabberPosition() {
+        double gP = 0.0;
+        gP = grabber.getPosition();
+        return gP;
+    }
+    public void launchDrone() { //test
+        double droneServoPosition = 0.0;
+        droneServoPosition = droneLauncher.getPosition();
+        try {
+            if(droneServoPosition == DRONE_CLOSED_POSITION){
+                droneLauncher.setPosition(DRONE_OPEN_POSITION);
+                Thread.sleep(10000);
+                droneLauncher.setPosition(DRONE_CLOSED_POSITION);
+            } else {
+                droneLauncher.setPosition(DRONE_CLOSED_POSITION);
+            }
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            return;
         }
+    }
+    public void moveArm(double power) {
+        while(arm.isBusy()){
+
+        }
+
     }
     public void strafe(double distance, double power) {
         int leftfronttarget = leftFrontDrive.getCurrentPosition() + (int)(distance * strafe_tick); //offset
