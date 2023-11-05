@@ -70,14 +70,18 @@ public class RobotHardwareMethods16523 {
     public DcMotor arm = null;
     public Servo grabber = null;
     public Servo droneLauncher = null;
+
+    public Servo tilter = null;
     HardwareMap hardwaremap = null;
     double strafe_tick = (537.7/(3.1415926 * 9.6));
     double forwardbackwards_tick = (537.7/(3.1415926 * 9.6));
-    public final double GRABBER_OPEN_POSITION = 0.2; // change ALL of these
+    public final double GRABBER_OPEN_POSITION = 0.3; // change ALL of these
     public final double GRABBER_CLOSED_POSITION = 1.0;
     public final double DRONE_OPEN_POSITION = 0.0;
     public final double DRONE_CLOSED_POSITION = 0.0;
 
+    public final double TILTER_PLACE = 0.6;
+    public final double TILTER_PICKUP = 0.0;
     /**
      * Initialize all the robot's hardware.
      * This method must be called ONCE when the OpMode is initialized.
@@ -91,6 +95,7 @@ public class RobotHardwareMethods16523 {
         rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
         arm = hardwareMap.get(DcMotor.class, "arm");
         grabber = hardwareMap.get(Servo.class,"grabber");
+            tilter = hardwareMap.get(Servo.class, "tilter");
         leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
@@ -108,6 +113,8 @@ public class RobotHardwareMethods16523 {
     public void closeGrabber(){
         grabber.setPosition(GRABBER_CLOSED_POSITION);
     }
+    public void tilterplace(){tilter.setPosition(TILTER_PLACE);}
+    public void tilterpickup(){tilter.setPosition(TILTER_PICKUP);}
     public void toggleGrabber() {
 //        double grabberPosition = grabber.getPosition();
 
