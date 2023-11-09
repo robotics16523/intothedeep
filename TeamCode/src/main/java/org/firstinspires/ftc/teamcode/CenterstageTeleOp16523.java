@@ -82,7 +82,7 @@ public class CenterstageTeleOp16523 extends LinearOpMode {
             double axial   = -gamepad1.left_stick_y;  // Note: pushing stick forward gives negative value
             double lateral =  gamepad1.left_stick_x;
             double yaw     =  gamepad1.right_stick_x;
-            double arm = -gamepad2.left_stick_y;
+            double arm = gamepad2.right_stick_y;
 //            boolean grabber = gamepad2.a;
 
             // Combine the joystick requests for each axis-motion to determine each wheel's power.
@@ -130,7 +130,7 @@ public class CenterstageTeleOp16523 extends LinearOpMode {
             robot.rightFrontDrive.setPower(rightFrontPower);
             robot.leftBackDrive.setPower(leftBackPower);
             robot.rightBackDrive.setPower(rightBackPower);
-
+            robot.arm.setPower(armPower);
             if(gamepad2.a)
                 robot.openGrabber();
 

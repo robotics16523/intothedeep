@@ -75,12 +75,12 @@ public class RobotHardwareMethods16523 {
     HardwareMap hardwaremap = null;
     double strafe_tick = (537.7/(3.1415926 * 9.6));
     double forwardbackwards_tick = (537.7/(3.1415926 * 9.6));
-    public final double GRABBER_OPEN_POSITION = 0.3; // change ALL of these
+    public final double GRABBER_OPEN_POSITION = 0.2; // change ALL of these
     public final double GRABBER_CLOSED_POSITION = 1.0;
     public final double DRONE_OPEN_POSITION = 0.0;
     public final double DRONE_CLOSED_POSITION = 0.0;
 
-    public final double TILTER_PLACE = 0.6;
+    public final double TILTER_PLACE = 0.4;
     public final double TILTER_PICKUP = 0.0;
     /**
      * Initialize all the robot's hardware.
