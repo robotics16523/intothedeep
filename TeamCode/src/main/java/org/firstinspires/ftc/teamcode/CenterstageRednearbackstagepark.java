@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 @Autonomous(name="Auton-v4", group = "Concept")
-public class CenterstageAuton16523 extends LinearOpMode {
+public class CenterstageRednearbackdroppark extends LinearOpMode {
 
 
     @Override public void runOpMode(){
@@ -13,10 +13,10 @@ public class CenterstageAuton16523 extends LinearOpMode {
         if (opModeIsActive()){
             robot.init(hardwareMap);
             //robot.drive(20,.5);
-            if(gamepad1.a){
-                robot.toggleGrabber();
-            }
-        }
+            robot.forwardbackwards_tick = 10;
+            robot.strafe_tick = -120;
+             }
+
 
     }
 
