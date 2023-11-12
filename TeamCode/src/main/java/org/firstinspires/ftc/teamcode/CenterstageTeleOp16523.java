@@ -61,7 +61,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Omni_v5", group="Linear OpMode")
+@TeleOp(name="Omni_v10", group="Linear OpMode")
 public class CenterstageTeleOp16523 extends LinearOpMode {
     RobotHardwareMethods16523 robot = new RobotHardwareMethods16523();
     private ElapsedTime runtime = new ElapsedTime();
@@ -82,7 +82,8 @@ public class CenterstageTeleOp16523 extends LinearOpMode {
             double axial   = -gamepad1.left_stick_y;  // Note: pushing stick forward gives negative value
             double lateral =  gamepad1.left_stick_x;
             double yaw     =  gamepad1.right_stick_x;
-            double arm = gamepad2.right_stick_y;
+            double arm = gamepad2.left_stick_y;
+            double tilter = gamepad2.right_stick_y;
 //            boolean grabber = gamepad2.a;
 
             // Combine the joystick requests for each axis-motion to determine each wheel's power.
@@ -130,12 +131,12 @@ public class CenterstageTeleOp16523 extends LinearOpMode {
             robot.rightFrontDrive.setPower(rightFrontPower);
             robot.leftBackDrive.setPower(leftBackPower);
             robot.rightBackDrive.setPower(rightBackPower);
-            robot.arm.setPower(armPower);
+            robot.moveArm(armPower);
             if(gamepad2.a)
-                robot.openGrabber();
+                robot.sequence_attachments_a();//sequence//changedback
 
             if(gamepad2.b)
-                robot.closeGrabber();
+                robot.sequence_attachments_b();
 
             if(gamepad2.y)
                 robot.tilterplace();
@@ -143,10 +144,22 @@ public class CenterstageTeleOp16523 extends LinearOpMode {
             if(gamepad2.x)
                 robot.tilterpickup();
 
+            if(gamepad1.a)
+                robot.launchDrone();
+
+            if(gamepad2.right_bumper)
+                robot.openGrabber();
+
+            if(gamepad2.left_bumper)
+                robot.closeGrabber();
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
-            telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower);
+            telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower,    rightFrontPower);
             telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
+            telemetry.addData("Arm position:",robot.arm.getCurrentPosition());
+            telemetry.addData("Tilter position:",robot.tilter.getPosition());
+            telemetry.addData("Grabber position:",robot.grabber.getPosition());
+            telemetry.addData("Drone launcher position:",robot.droneLauncher.getPosition());
             telemetry.update();
 
         }

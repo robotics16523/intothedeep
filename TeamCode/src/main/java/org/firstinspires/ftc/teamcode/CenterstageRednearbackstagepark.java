@@ -3,8 +3,8 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-@Autonomous(name="Auton-v4", group = "Concept")
-public class CenterstageRednearbackdroppark extends LinearOpMode {
+@Autonomous(name="Auton-RedNearPark-v1", group = "Concept")
+public class CenterstageRednearbackstagepark extends LinearOpMode {
 
 
     @Override public void runOpMode(){
