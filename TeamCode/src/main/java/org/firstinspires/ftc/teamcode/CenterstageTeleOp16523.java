@@ -61,7 +61,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Omni_v10", group="Linear OpMode")
+@TeleOp(name="Omni_v14", group="Linear OpMode")
 public class CenterstageTeleOp16523 extends LinearOpMode {
     RobotHardwareMethods16523 robot = new RobotHardwareMethods16523();
     private ElapsedTime runtime = new ElapsedTime();
@@ -93,6 +93,7 @@ public class CenterstageTeleOp16523 extends LinearOpMode {
             double leftBackPower   = axial - lateral + yaw;
             double rightBackPower  = axial + lateral - yaw;
             double armPower = arm;
+            double tilterPower = tilter;
 
             // Normalize the values so no wheel power exceeds 100%
             // This ensures that the robot maintains the desired motion.
@@ -107,6 +108,7 @@ public class CenterstageTeleOp16523 extends LinearOpMode {
                 leftBackPower   /= max;
                 rightBackPower  /= max;
                 armPower /= max;
+                tilterPower /= max;
             }
 
             // This is test code:
@@ -132,6 +134,7 @@ public class CenterstageTeleOp16523 extends LinearOpMode {
             robot.leftBackDrive.setPower(leftBackPower);
             robot.rightBackDrive.setPower(rightBackPower);
             robot.moveArm(armPower);
+           // robot.moveTilter(tilterPower);
             if(gamepad2.a)
                 robot.sequence_attachments_a();//sequence//changedback
 
@@ -144,7 +147,7 @@ public class CenterstageTeleOp16523 extends LinearOpMode {
             if(gamepad2.x)
                 robot.tilterpickup();
 
-            if(gamepad1.a)
+            if(gamepad1.x)
                 robot.launchDrone();
 
             if(gamepad2.right_bumper)

@@ -85,8 +85,8 @@ public class RobotHardwareMethods16523 {
     public final double DRONE_OPEN_POSITION = 0.2;//change
     public final double DRONE_CLOSED_POSITION = 1.0;
 
-    public final double TILTER_PLACE = 0.8;//test
-    public final double TILTER_PICKUP = 0.51;
+    public final double TILTER_PLACE = 0.78;//test
+    public final double TILTER_PICKUP = 0.53;
 
     public final int ARM_MAXIMUM = -11862;//test
     public final int ARM_MINIMUM = -40;//change this?
@@ -192,6 +192,8 @@ public class RobotHardwareMethods16523 {
         }
         arm.setPower(power);*/
     }
+    //public void moveTilter(double power){
+    //}
     /*
     BUTTON A:
     arm down
@@ -204,12 +206,12 @@ public class RobotHardwareMethods16523 {
     public void sequence_attachments_a() {
        /* while (arm.isBusy()) {
         }*/
-        if (arm.getCurrentPosition() >= ARM_MAXIMUM) {
+        if (arm.getCurrentPosition() < ARM_MAXIMUM) {
         }
-        if (arm.getCurrentPosition() <= ARM_MINIMUM) {
+        if (arm.getCurrentPosition() > ARM_MINIMUM) {
         }
         try {
-            arm.setTargetPosition(ARM_MINIMUM + 500);
+            arm.setTargetPosition(ARM_MINIMUM - 500);
             Thread.sleep(1500);
             closeGrabber();
             Thread.sleep(200);
@@ -227,9 +229,9 @@ public class RobotHardwareMethods16523 {
     public void sequence_attachments_b() {
        // while (arm.isBusy()) {
         //}
-        if (arm.getCurrentPosition() >= ARM_MAXIMUM) {
+        if (arm.getCurrentPosition() < ARM_MAXIMUM) {
         }
-        if (arm.getCurrentPosition() <= ARM_MINIMUM) {
+        if (arm.getCurrentPosition() > ARM_MINIMUM) {
         }
         try {
             arm.setTargetPosition(ARM_MAXIMUM + 1000);
