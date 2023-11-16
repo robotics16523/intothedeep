@@ -16,7 +16,7 @@ public class CenterstageRednearbackstagepark extends LinearOpMode {
                 robot.init(hardwareMap);
                 robot.drive(10, .5);
                 Thread.sleep(2000);
-                robot.strafe(100, .5);
+                robot.strafeRight(120, .5);
                 Thread.sleep(5000);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();

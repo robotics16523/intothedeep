@@ -61,7 +61,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Omni_v14", group="Linear OpMode")
+@TeleOp(name="Omni_v15", group="Linear OpMode")
 public class CenterstageTeleOp16523 extends LinearOpMode {
     RobotHardwareMethods16523 robot = new RobotHardwareMethods16523();
     private ElapsedTime runtime = new ElapsedTime();
@@ -102,7 +102,7 @@ public class CenterstageTeleOp16523 extends LinearOpMode {
             max = Math.max(max, Math.abs(rightBackPower));
             max = Math.max(max, Math.abs(armPower));
 
-            if (max > 0.7) {
+            if (max > 1.2) {
                 leftFrontPower  /= max;
                 rightFrontPower /= max;
                 leftBackPower   /= max;

@@ -80,13 +80,13 @@ public class RobotHardwareMethods16523 {
     HardwareMap hardwaremap = null;
     double strafe_tick = (537.7 / (3.1415926 * 9.6));
     double forwardbackwards_tick = (537.7 / (3.1415926 * 9.6));
-    public final double GRABBER_OPEN_POSITION = 0.2;
+    public final double GRABBER_OPEN_POSITION = 0.1;
     public final double GRABBER_CLOSED_POSITION = 1.0;
     public final double DRONE_OPEN_POSITION = 0.2;//change
     public final double DRONE_CLOSED_POSITION = 1.0;
 
     public final double TILTER_PLACE = 0.78;//test
-    public final double TILTER_PICKUP = 0.53;
+    public final double TILTER_PICKUP = 0.535;
 
     public final int ARM_MAXIMUM = -11862;//test
     public final int ARM_MINIMUM = -40;//change this?
@@ -271,6 +271,7 @@ public class RobotHardwareMethods16523 {
         rightFrontDrive.setPower(Math.abs(power) * 0.5);
         rightBackDrive.setPower(Math.abs(power) * 0.5);
 
+
         while (leftFrontDrive.isBusy() && leftBackDrive.isBusy() && rightFrontDrive.isBusy() && rightBackDrive.isBusy()) { //invert syntax?
 
         }
@@ -286,35 +287,21 @@ public class RobotHardwareMethods16523 {
 
     }
     //public void strafe_right(double distance, double power);
-    public boolean strafeDirectional(String direction, double distance, double power){
-        if(direction.toLowerCase()=="right"){
-            try {
-                double strafeRightDistance = -Math.abs(distance);
-                strafe(strafeRightDistance,power);
-                return true;
-            } catch(Exception e){
-                return false;
-            }
-        } else if(direction.toLowerCase()=="left") {
-            try {
-                double strafeLeftDistance = Math.abs(distance);
-                strafe(strafeLeftDistance, power);
-                return true;
-            } catch(Exception e){
-                return false;
-            }
-        }else{
-            return false;
-        }
-        //you want to take in your string literal, check if its left or right, and then youre gonna wanna base the direction off the param
-        //add error handling
+    public void strafeRight(double distanceCm, double power) {
+        double strafeRightDistance = (Math.abs(distanceCm));
+        strafe(strafeRightDistance, power);
+    }
+
+    public void strafeLeft(double distanceCm, double power){
+        double strafeLeftDistance = -(Math.abs(distanceCm));
+        strafe(strafeLeftDistance, power);
     }
 
     public void drive(double distance, double power) {
-        int leftfronttarget = leftFrontDrive.getCurrentPosition() + (int) (distance * forwardbackwards_tick);
-        int leftbacktarget = leftBackDrive.getCurrentPosition() + (int) (distance * forwardbackwards_tick);
-        int rightfronttarget = rightFrontDrive.getCurrentPosition() + (int) (distance * forwardbackwards_tick);
-        int rightbacktarget = rightBackDrive.getCurrentPosition() + (int) (distance * forwardbackwards_tick);
+        int leftfronttarget = leftFrontDrive.getCurrentPosition() + (int) (distance * DRIVE_COUNTS_PER_CENTIMETERS);
+        int leftbacktarget = leftBackDrive.getCurrentPosition() +(int) (distance * DRIVE_COUNTS_PER_CENTIMETERS);
+        int rightfronttarget = rightFrontDrive.getCurrentPosition() + (int) (distance * DRIVE_COUNTS_PER_CENTIMETERS);
+        int rightbacktarget = rightBackDrive.getCurrentPosition() + (int) (distance * DRIVE_COUNTS_PER_CENTIMETERS);
 
         leftFrontDrive.setTargetPosition(leftfronttarget);
         leftBackDrive.setTargetPosition(leftbacktarget);
