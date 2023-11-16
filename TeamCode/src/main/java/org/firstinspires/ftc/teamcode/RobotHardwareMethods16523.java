@@ -91,7 +91,10 @@ public class RobotHardwareMethods16523 {
     public final int ARM_MAXIMUM = -11862;//test
     public final int ARM_MINIMUM = -40;//change this?
     public final double SQUARE_LENGTH = 60.96; //centimeters
-
+    public final double COUNTS_PER_MOTOR_REV = 537.7;
+    public final double DRIVE_GEAR_REDUCTION = 1.0;
+    public final double DRIVE_WHEEL_DIAMETER_CENTIMETERS = 9.6;
+    public final double DRIVE_COUNTS_PER_CENTIMETERS = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (DRIVE_WHEEL_DIAMETER_CENTIMETERS*3.1415);
     /**
      * Initialize all the robot's hardware.
      * This method must be called ONCE when the OpMode is initialized.
@@ -248,10 +251,10 @@ public class RobotHardwareMethods16523 {
     }
 
     public void strafe(double distance, double power) {
-        int leftfronttarget = leftFrontDrive.getCurrentPosition() + (int) (distance * strafe_tick); //offset
-        int leftbacktarget = leftBackDrive.getCurrentPosition() - (int) (distance * strafe_tick);
-        int rightfronttarget = rightFrontDrive.getCurrentPosition() - (int) (distance * strafe_tick);
-        int rightbacktarget = rightBackDrive.getCurrentPosition() + (int) (distance * strafe_tick);
+        int leftfronttarget = leftFrontDrive.getCurrentPosition() + (int) (distance * DRIVE_COUNTS_PER_CENTIMETERS); //offset
+        int leftbacktarget = leftBackDrive.getCurrentPosition() - (int) (distance * DRIVE_COUNTS_PER_CENTIMETERS);
+        int rightfronttarget = rightFrontDrive.getCurrentPosition() - (int) (distance * DRIVE_COUNTS_PER_CENTIMETERS);
+        int rightbacktarget = rightBackDrive.getCurrentPosition() + (int) (distance * DRIVE_COUNTS_PER_CENTIMETERS);
 
         leftFrontDrive.setTargetPosition(leftfronttarget);
         leftBackDrive.setTargetPosition(leftbacktarget);
@@ -263,10 +266,10 @@ public class RobotHardwareMethods16523 {
         rightFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        leftFrontDrive.setPower(Math.abs(power));
-        leftBackDrive.setPower(Math.abs(power));
-        rightFrontDrive.setPower(Math.abs(power));
-        rightBackDrive.setPower(Math.abs(power));
+        leftFrontDrive.setPower(Math.abs(power) * 0.5);
+        leftBackDrive.setPower(Math.abs(power) * 0.5);
+        rightFrontDrive.setPower(Math.abs(power) * 0.5);
+        rightBackDrive.setPower(Math.abs(power) * 0.5);
 
         while (leftFrontDrive.isBusy() && leftBackDrive.isBusy() && rightFrontDrive.isBusy() && rightBackDrive.isBusy()) { //invert syntax?
 
@@ -276,11 +279,35 @@ public class RobotHardwareMethods16523 {
         rightFrontDrive.setPower(0);
         rightBackDrive.setPower(0);
 
-        leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        /*leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);*/
 
+    }
+    //public void strafe_right(double distance, double power);
+    public boolean strafeDirectional(String direction, double distance, double power){
+        if(direction.toLowerCase()=="right"){
+            try {
+                double strafeRightDistance = -Math.abs(distance);
+                strafe(strafeRightDistance,power);
+                return true;
+            } catch(Exception e){
+                return false;
+            }
+        } else if(direction.toLowerCase()=="left") {
+            try {
+                double strafeLeftDistance = Math.abs(distance);
+                strafe(strafeLeftDistance, power);
+                return true;
+            } catch(Exception e){
+                return false;
+            }
+        }else{
+            return false;
+        }
+        //you want to take in your string literal, check if its left or right, and then youre gonna wanna base the direction off the param
+        //add error handling
     }
 
     public void drive(double distance, double power) {
@@ -299,10 +326,10 @@ public class RobotHardwareMethods16523 {
         rightFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        leftFrontDrive.setPower(Math.abs(power));
-        leftBackDrive.setPower(Math.abs(power));
-        rightFrontDrive.setPower(Math.abs(power));
-        rightBackDrive.setPower(Math.abs(power));
+        leftFrontDrive.setPower(Math.abs(power) * 0.5);
+        leftBackDrive.setPower(Math.abs(power) * 0.5);
+        rightFrontDrive.setPower(Math.abs(power) * 0.5);
+        rightBackDrive.setPower(Math.abs(power) * 0.5);
 
         while (leftFrontDrive.isBusy() && leftBackDrive.isBusy() && rightFrontDrive.isBusy() && rightBackDrive.isBusy()) {
 

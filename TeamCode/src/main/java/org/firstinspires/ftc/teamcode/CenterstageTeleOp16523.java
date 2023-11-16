@@ -102,7 +102,7 @@ public class CenterstageTeleOp16523 extends LinearOpMode {
             max = Math.max(max, Math.abs(rightBackPower));
             max = Math.max(max, Math.abs(armPower));
 
-            if (max > 1.0) {
+            if (max > 0.7) {
                 leftFrontPower  /= max;
                 rightFrontPower /= max;
                 leftBackPower   /= max;
