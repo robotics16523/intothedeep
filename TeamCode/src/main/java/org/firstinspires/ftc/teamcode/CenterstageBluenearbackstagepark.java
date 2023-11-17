@@ -3,25 +3,16 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-@Autonomous(name="Auton-BlueNearPark-v2", group = "Concept")
+@Autonomous(name = "Auton-BlueNearPark-v11", group = "Concept")
 public class CenterstageBluenearbackstagepark extends LinearOpMode {
+    RobotHardwareMethods16523 robot = new RobotHardwareMethods16523();
 
+    @Override
+    public void runOpMode() {
+        robot.init(hardwareMap);
 
-    @Override public void runOpMode(){
-        RobotHardwareMethods16523 robot = new RobotHardwareMethods16523();
-        waitForStart();
-        if (opModeIsActive()) {
-            try {
-                robot.init(hardwareMap);
-                robot.drive(20, .5);
-                Thread.sleep(400);
-                robot.strafeLeft(247, .5);
-                Thread.sleep(4000);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
-        }
-
+        robot.drive(10, .5);
+        robot.strafeLeft(120, .5);
     }
 
 }

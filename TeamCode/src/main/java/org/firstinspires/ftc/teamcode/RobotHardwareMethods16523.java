@@ -31,6 +31,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -258,13 +259,22 @@ public class RobotHardwareMethods16523 {
 
         leftFrontDrive.setTargetPosition(leftfronttarget);
         leftBackDrive.setTargetPosition(leftbacktarget);
-        rightBackDrive.setTargetPosition(rightfronttarget);
-        rightFrontDrive.setTargetPosition(rightbacktarget);
+        rightBackDrive.setTargetPosition(rightbacktarget);
+        rightFrontDrive.setTargetPosition(rightfronttarget);
 
         leftFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         leftBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        // Normalize the values so no wheel power exceeds 100%
+        // This ensures that the robot maintains the desired motion.
+        double max = 0;
+        max = Math.max(max, power);
+
+        if (max > 1.2) {
+            power  /= max;
+        }
 
         leftFrontDrive.setPower(Math.abs(power) * 0.5);
         leftBackDrive.setPower(Math.abs(power) * 0.5);
@@ -305,8 +315,8 @@ public class RobotHardwareMethods16523 {
 
         leftFrontDrive.setTargetPosition(leftfronttarget);
         leftBackDrive.setTargetPosition(leftbacktarget);
-        rightBackDrive.setTargetPosition(rightfronttarget);
-        rightFrontDrive.setTargetPosition(rightbacktarget);
+        rightBackDrive.setTargetPosition(rightbacktarget);
+        rightFrontDrive.setTargetPosition(rightfronttarget);
 
         leftFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         leftBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
