@@ -29,6 +29,7 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -40,6 +41,10 @@ import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
@@ -78,6 +83,11 @@ public class RobotHardwareMethods16523 {
     public Servo droneLauncher = null;
 
     public Servo tilter = null;
+    public BNO055IMU imu1 = null;
+    Orientation angles;
+    double globalAngle,power = 0.3,Correction;
+    Orientation lastAngles = new Orientation();
+    public double tpr_arm = 384.5;
     HardwareMap hardwaremap = null;
     double strafe_tick = (537.7 / (3.1415926 * 9.6));
     double forwardbackwards_tick = (537.7 / (3.1415926 * 9.6));
@@ -86,8 +96,8 @@ public class RobotHardwareMethods16523 {
     public final double DRONE_OPEN_POSITION = 0.2;//change
     public final double DRONE_CLOSED_POSITION = 1.0;
 
-    public final double TILTER_PLACE = 0.78;//test
-    public final double TILTER_PICKUP = 0.535;
+    public final double TILTER_PLACE = 0.76;//test
+    public final double TILTER_PICKUP = 0.51; //test
 
     public final int ARM_MAXIMUM = -11862;//test
     public final int ARM_MINIMUM = -40;//change this?
@@ -96,6 +106,25 @@ public class RobotHardwareMethods16523 {
     public final double DRIVE_GEAR_REDUCTION = 1.0;
     public final double DRIVE_WHEEL_DIAMETER_CENTIMETERS = 9.6;
     public final double DRIVE_COUNTS_PER_CENTIMETERS = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (DRIVE_WHEEL_DIAMETER_CENTIMETERS*3.1415);
+
+    private void resetAngle(){
+        Orientation lastAngles = imu1.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        globalAngle = 0;
+    }
+    private double getAngle() {
+        Orientation angles = imu1.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        double deltaAngle = angles.firstAngle - lastAngles.firstAngle;
+
+        if(deltaAngle < -180) {
+            deltaAngle += 360;
+        }
+        else if (deltaAngle > 180) {
+            deltaAngle -= 360;
+        }
+        globalAngle += deltaAngle;
+        lastAngles = angles;
+        return globalAngle;
+    }
     /**
      * Initialize all the robot's hardware.
      * This method must be called ONCE when the OpMode is initialized.
@@ -196,6 +225,14 @@ public class RobotHardwareMethods16523 {
         }
         arm.setPower(power);*/
     }
+    public void armPosition(double target, double power){
+        arm.setTargetPosition((int)(target*tpr_arm));
+        arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        arm.setPower(Math.abs(power));
+        while(arm.isBusy()) {
+        }
+
+    }
     //public void moveTilter(double power){
     //}
     /*
@@ -207,6 +244,51 @@ public class RobotHardwareMethods16523 {
     BUTTON B:
     lift the arm to desired position
      */
+    public void rotate(double degrees, double power) {
+        double leftfrontpower = 0;
+        double rightfrontpower = 0;
+        double leftbackpower = 0;
+        double rightbackpower = 0;
+        leftFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        if (degrees > 0) {
+            degrees = degrees - 12;
+            leftfrontpower = power;
+            rightfrontpower = -power;
+            leftbackpower = power;
+            rightbackpower = -power;
+        } else if (degrees < 0) {
+            degrees = degrees + 12;
+            leftfrontpower = -power;
+            rightfrontpower = power;
+            leftbackpower = -power;
+            rightbackpower = power;
+        } else {
+            leftFrontDrive.setPower(leftfrontpower);
+            rightFrontDrive.setPower(rightfrontpower);
+            leftBackDrive.setPower(leftbackpower);
+            rightBackDrive.setPower(rightbackpower);
+        }
+        while (getAngle() == 0) {
+        }
+
+        if (degrees < 0) {
+            while (getAngle() >= degrees) {
+            }
+        } else if (degrees > 0) {
+            while (getAngle() <= degrees) {
+            }
+        }
+        leftFrontDrive.setPower(0);
+        rightFrontDrive.setPower(0);
+        leftBackDrive.setPower(0);
+        rightBackDrive.setPower(0);
+        resetAngle();
+    }
+
     public void sequence_attachments_a() {
        /* while (arm.isBusy()) {
         }*/
