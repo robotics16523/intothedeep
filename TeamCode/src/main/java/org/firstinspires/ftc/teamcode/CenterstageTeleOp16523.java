@@ -77,7 +77,7 @@ public class CenterstageTeleOp16523 extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
             double max;
-
+            double max2;
             // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
             double axial   = -gamepad1.left_stick_y;  // Note: pushing stick forward gives negative value
             double lateral =  gamepad1.left_stick_x;
@@ -102,13 +102,12 @@ public class CenterstageTeleOp16523 extends LinearOpMode {
             max = Math.max(max, Math.abs(rightBackPower));
             max = Math.max(max, Math.abs(armPower));
 
-            if (max > 1.2) {
+            if (max > 0.2) {
                 leftFrontPower  /= max;
                 rightFrontPower /= max;
                 leftBackPower   /= max;
                 rightBackPower  /= max;
                 armPower /= max;
-                tilterPower /= max;
             }
 
             // This is test code:

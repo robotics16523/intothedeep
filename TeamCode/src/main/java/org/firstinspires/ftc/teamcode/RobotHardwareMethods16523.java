@@ -271,7 +271,6 @@ public class RobotHardwareMethods16523 {
         // This ensures that the robot maintains the desired motion.
         double max = 0;
         max = Math.max(max, power);
-
         if (max > 1.2) {
             power  /= max;
         }
