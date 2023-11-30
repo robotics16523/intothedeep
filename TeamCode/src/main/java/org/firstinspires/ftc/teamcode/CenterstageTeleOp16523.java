@@ -61,7 +61,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Omni_v15", group="Linear OpMode")
+@TeleOp(name="Omni_v19", group="Linear OpMode")
 public class CenterstageTeleOp16523 extends LinearOpMode {
     RobotHardwareMethods16523 robot = new RobotHardwareMethods16523();
     private ElapsedTime runtime = new ElapsedTime();
@@ -102,13 +102,17 @@ public class CenterstageTeleOp16523 extends LinearOpMode {
             max = Math.max(max, Math.abs(rightBackPower));
             max = Math.max(max, Math.abs(armPower));
 
-            if (max > 0.2) {
+            if (max > 1.0) {
                 leftFrontPower  /= max;
                 rightFrontPower /= max;
                 leftBackPower   /= max;
                 rightBackPower  /= max;
                 armPower /= max;
             }
+            robot.leftFrontDrive.setPower(leftFrontPower*0.65);
+            robot.leftBackDrive.setPower(leftBackPower*0.65);
+            robot.rightFrontDrive.setPower(rightFrontPower*0.65);
+            robot.rightBackDrive.setPower(rightBackPower*0.65);
 
             // This is test code:
             //
@@ -134,11 +138,11 @@ public class CenterstageTeleOp16523 extends LinearOpMode {
             robot.rightBackDrive.setPower(rightBackPower);
             robot.moveArm(armPower);
            // robot.moveTilter(tilterPower);
-            if(gamepad2.a)
-                robot.sequence_attachments_a();//sequence//changedback
+            //if(gamepad2.a)
+                //robot.sequence_attachments_a();//sequence//changedback
 
-            if(gamepad2.b)
-                robot.sequence_attachments_b();
+            //if(gamepad2.b)
+                //robot.sequence_attachments_b();
 
             if(gamepad2.y)
                 robot.tilterplace();
@@ -155,6 +159,11 @@ public class CenterstageTeleOp16523 extends LinearOpMode {
             if(gamepad2.left_bumper)
                 robot.closeGrabber();
             // Show the elapsed game time and wheel power.
+            /*if(robot.arm.getCurrentPosition()<100||robot.arm.getCurrentPosition()>0){
+                robot.arm.setPower(robot.power*0.75);
+                telemetry.addData("WARNING","YOU'RE ABOUT TO BREAK THE ARM");
+                telemetry.update();
+            }*/
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower,    rightFrontPower);
             telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);

@@ -15,7 +15,7 @@ public class CenterstageF2toF6 extends LinearOpMode {
             robot.openGrabber();
             robot.drive(61, .5);
             robot.drive(-61, .5);
-            robot.armPosition(-757,.5);
+            robot.armPosition(-700,.5);
             robot.strafeRight(183,.5);
             robot.drive(61,.5);
             robot.rotate(90,.5);
@@ -25,7 +25,7 @@ public class CenterstageF2toF6 extends LinearOpMode {
             robot.closeGrabber();
             robot.drive(-10,.5);
             robot.tilterpickup();
-            robot.armPosition(-15,0.5);
+            robot.armPosition(-45,0.5);
             robot.strafeRight(61,.5);
             robot.rotate(-180,.5);
             robot.drive(-30.5,0.5);

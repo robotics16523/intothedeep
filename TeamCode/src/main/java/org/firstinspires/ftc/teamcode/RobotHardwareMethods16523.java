@@ -69,11 +69,7 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
  */
 
 public class RobotHardwareMethods16523 {
-
-    /* Declare OpMode members. */
-//    private LinearOpMode myOpMode = null;   // gain access to methods in the calling OpMode.
-
-    // Define Motor and Servo objects  (Make them private so they can't be accessed externally)
+    //"Every coders crime to society: set everything to null" -Felix Katch 2023
     public DcMotor leftFrontDrive = null;
     public DcMotor leftBackDrive = null;
     public DcMotor rightFrontDrive = null;
@@ -97,16 +93,20 @@ public class RobotHardwareMethods16523 {
     public final double DRONE_CLOSED_POSITION = 1.0;
 
     public final double TILTER_PLACE = 0.76;//test
-    public final double TILTER_PICKUP = 0.51; //test
+    public final double TILTER_PICKUP = 0.50; //test
 
     public final int ARM_MAXIMUM = -11862;//test
-    public final int ARM_MINIMUM = -40;//change this?
+    public final int ARM_MINIMUM = 0;//change this?
     public final double SQUARE_LENGTH = 60.96; //centimeters
     public final double COUNTS_PER_MOTOR_REV = 537.7;
     public final double DRIVE_GEAR_REDUCTION = 1.0;
     public final double DRIVE_WHEEL_DIAMETER_CENTIMETERS = 9.6;
     public final double DRIVE_COUNTS_PER_CENTIMETERS = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (DRIVE_WHEEL_DIAMETER_CENTIMETERS*3.1415);
-
+    public final double DRIVE_WHEEL_DIAMETER_MM = 96.0; // Diameter of the wheel
+    public final double COUNTS_PER_CM = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
+            (Math.PI * DRIVE_WHEEL_DIAMETER_MM / 10); // Convert from mm to cm
+    public final double WHEEL_BASE_WIDTH_CM = 2 * DRIVE_WHEEL_DIAMETER_MM / 10; // Convert from mm to cm
+    public final double COUNTS_PER_DEGREE = COUNTS_PER_CM * Math.PI * WHEEL_BASE_WIDTH_CM / 360.0;
     private void resetAngle(){
         Orientation lastAngles = imu1.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         globalAngle = 0;
@@ -169,7 +169,6 @@ public class RobotHardwareMethods16523 {
     }
 
     public void toggleGrabber() {
-//        double grabberPosition = grabber.getPosition();
 
         boolean isClosed = grabber.getPosition() > GRABBER_OPEN_POSITION;
 
@@ -188,13 +187,52 @@ public class RobotHardwareMethods16523 {
 //        }
     }
 
+    public void pivot(int degrees, double power) {
+        int targetPosition = (int) (degrees * COUNTS_PER_DEGREE);
+
+        // Set target positions for each motor
+        leftFrontDrive.setTargetPosition(targetPosition);
+        leftBackDrive.setTargetPosition(targetPosition);
+        rightFrontDrive.setTargetPosition(targetPosition);
+        rightBackDrive.setTargetPosition(targetPosition);
+
+        // Set motor modes to RUN_TO_POSITION
+        leftFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        leftBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        // Set power for each motor
+        leftFrontDrive.setPower(power);
+        leftBackDrive.setPower(power);
+        rightFrontDrive.setPower(power);
+        rightBackDrive.setPower(power);
+
+        // Wait until all motors reach the target position
+        while (leftFrontDrive.isBusy() || leftBackDrive.isBusy() ||
+                rightFrontDrive.isBusy() || rightBackDrive.isBusy()) {
+            // You can add other logic here if needed
+        }
+
+        // Stop all motors
+        leftFrontDrive.setPower(0);
+        leftBackDrive.setPower(0);
+        rightFrontDrive.setPower(0);
+        rightBackDrive.setPower(0);
+
+        // Switch back to encoder mode for all motors
+        leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
     public void launchDrone() { //test
         double droneServoPosition = 0.0;
         droneServoPosition = droneLauncher.getPosition();
         try {
             if (droneServoPosition == DRONE_CLOSED_POSITION) {
                 droneLauncher.setPosition(DRONE_OPEN_POSITION);
-                Thread.sleep(5000);
+                Thread.sleep(1000);//shorter duration to close the drone launcher
                 droneLauncher.setPosition(DRONE_CLOSED_POSITION);
             } else {
                 droneLauncher.setPosition(DRONE_CLOSED_POSITION);
@@ -206,12 +244,12 @@ public class RobotHardwareMethods16523 {
     }
 
     public void moveArm(double power) {
-        if (arm.getCurrentPosition() >= ARM_MAXIMUM) {
-            arm.setTargetPosition(ARM_MAXIMUM+100);
-        }
-        if (arm.getCurrentPosition() <= ARM_MINIMUM) {
-            arm.setTargetPosition(ARM_MINIMUM-100);
-        }
+        //if (arm.getCurrentPosition() >= ARM_MAXIMUM) {
+         //   arm.setTargetPosition(ARM_MAXIMUM+100);
+        //}
+        //if (arm.getCurrentPosition() <= ARM_MINIMUM) {
+        //    arm.setTargetPosition(ARM_MINIMUM-100);
+        //}
         arm.setPower(power);
 
        /* while (arm.isBusy()) {
@@ -231,6 +269,13 @@ public class RobotHardwareMethods16523 {
         arm.setPower(Math.abs(power));
         while(arm.isBusy()) {
         }
+        if (arm.getCurrentPosition() >= ARM_MAXIMUM) {
+            arm.setTargetPosition(ARM_MAXIMUM+100);
+        }
+        if (arm.getCurrentPosition() <= ARM_MINIMUM) {
+            arm.setTargetPosition(ARM_MINIMUM-100);
+        }
+     //   arm.setPower(power);
 
     }
     //public void moveTilter(double power){
@@ -289,6 +334,26 @@ public class RobotHardwareMethods16523 {
         resetAngle();
     }
 
+    public void moveArmToPosition(double power, int targetPosition) {
+        // Check if the target position is within the allowed range
+        if (targetPosition >= ARM_MAXIMUM) {
+            targetPosition = ARM_MAXIMUM;
+        } else if (targetPosition <= ARM_MINIMUM) {
+            targetPosition = ARM_MINIMUM;
+        }
+
+        arm.setTargetPosition(targetPosition);
+        arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        arm.setPower(power);
+
+        while (arm.isBusy()) {
+            // Wait until the arm reaches the target position
+            // You can add other logic here if needed
+        }
+
+        arm.setPower(0); // Stop the arm
+        arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER); // Switch back to encoder mode
+    }
     public void sequence_attachments_a() {
        /* while (arm.isBusy()) {
         }*/
@@ -297,16 +362,14 @@ public class RobotHardwareMethods16523 {
         if (arm.getCurrentPosition() > ARM_MINIMUM) {
         }
         try {
-            arm.setTargetPosition(ARM_MINIMUM - 500);
-            Thread.sleep(1500);
             closeGrabber();
             Thread.sleep(200);
             tilterpickup();
             Thread.sleep(200);
-            arm.setTargetPosition(ARM_MINIMUM);
-            Thread.sleep(300);
+            armPosition(-45,.7);
+            Thread.sleep(200);
             openGrabber();
-            Thread.sleep(400);
+            Thread.sleep(200);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
@@ -320,14 +383,14 @@ public class RobotHardwareMethods16523 {
         if (arm.getCurrentPosition() > ARM_MINIMUM) {
         }
         try {
-            arm.setTargetPosition(ARM_MAXIMUM + 1000);
-            Thread.sleep(1500);
+            armPosition(-5000,.7);
+            Thread.sleep(200);
             tilterplace();
-            Thread.sleep(500);
+            Thread.sleep(200);
             closeGrabber();
             Thread.sleep(200);
             tilterpickup();
-            Thread.sleep(500);
+            Thread.sleep(200);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
@@ -435,7 +498,8 @@ public class RobotHardwareMethods16523 {
     private static final boolean USE_WEBCAM = true;  // Set true to use a webcam, or false for a phone camera
     private static final int DESIRED_TAG_ID = -1;     // Choose the tag you want to approach or set to -1 for ANY tag.
     private VisionPortal visionPortal;               // Used to manage the video source.
-    private AprilTagProcessor aprilTag;              // Used for managing the AprilTag detection process.
+    private AprilTagProcessor aprilTag;
+    // Used for managing the AprilTag detection process.
     private AprilTagDetection desiredTag = null;// Used to hold the data for a detected AprilTag
     /*class AprilTag {
         private void initAprilTag() {
