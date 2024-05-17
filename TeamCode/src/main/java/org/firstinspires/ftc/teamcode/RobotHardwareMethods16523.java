@@ -93,7 +93,7 @@ public class RobotHardwareMethods16523 {
     public final double DRONE_CLOSED_POSITION = 1.0;
 
     public final double TILTER_PLACE = 0.76;//test
-    public final double TILTER_PICKUP = 0.50; //test
+    public final double TILTER_PICKUP = 0.515; //test
 
     public final int ARM_MAXIMUM = -11862;//test
     public final int ARM_MINIMUM = 0;//change this?
