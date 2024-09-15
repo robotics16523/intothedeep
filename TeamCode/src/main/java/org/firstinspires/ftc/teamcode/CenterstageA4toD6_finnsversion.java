@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
     @Autonomous(name = "Auton-A4toD6-finnsversion-v2", group = "Concept")
     public class CenterstageA4toD6_finnsversion extends LinearOpMode {
-        RobotHardwareMethods16523 robot = new RobotHardwareMethods16523();
+        RobotMethods robot = new RobotMethods();
         @Override
         public void runOpMode() {
             robot.init(hardwareMap);

@@ -63,7 +63,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 @TeleOp(name="Omni_v20", group="Linear OpMode")
 public class CenterstageTeleOp16523 extends LinearOpMode {
-    RobotHardwareMethods16523 robot = new RobotHardwareMethods16523();
+    RobotMethods robot = new RobotMethods();
     private ElapsedTime runtime = new ElapsedTime();
     @Override
     public void runOpMode() {

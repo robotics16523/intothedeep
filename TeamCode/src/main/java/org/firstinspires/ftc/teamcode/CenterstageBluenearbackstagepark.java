@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 @Autonomous(name = "Auton-BlueNearPark-v11", group = "Concept")
 public class CenterstageBluenearbackstagepark extends LinearOpMode {
-    RobotHardwareMethods16523 robot = new RobotHardwareMethods16523();
+    RobotMethods robot = new RobotMethods();
 
     @Override
     public void runOpMode() {

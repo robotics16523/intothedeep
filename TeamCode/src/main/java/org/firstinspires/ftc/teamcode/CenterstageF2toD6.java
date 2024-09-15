@@ -8,7 +8,7 @@ public class CenterstageF2toD6 extends LinearOpMode {
 
 
     @Override public void runOpMode(){
-        RobotHardwareMethods16523 robot = new RobotHardwareMethods16523();
+        RobotMethods robot = new RobotMethods();
         waitForStart();
         if (opModeIsActive()) {
                 robot.init(hardwareMap);

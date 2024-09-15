@@ -30,17 +30,10 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
@@ -68,35 +61,16 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
  *
  */
 
-public class RobotHardwareMethods16523 {
-    //"Every coders crime to society: set everything to null" -Felix Katch 2023
+public class RobotMethods {
     public DcMotor leftFrontDrive = null;
     public DcMotor leftBackDrive = null;
     public DcMotor rightFrontDrive = null;
     public DcMotor rightBackDrive = null;
-    public DcMotor arm = null;
-    public Servo grabber = null;
-    public Servo droneLauncher = null;
-
-    public Servo tilter = null;
-    public BNO055IMU imu1 = null;
-    Orientation angles;
-    double globalAngle,power = 0.3,Correction;
+    public BNO055IMU imu1 = null;//this looks like an encoder but im not too sure just dont mess with it
+    double globalAngle,power = 0.3,Correction;//same applies for the global angle and orientation
     Orientation lastAngles = new Orientation();
-    public double tpr_arm = 384.5;
-    HardwareMap hardwaremap = null;
     double strafe_tick = (537.7 / (3.1415926 * 9.6));
     double forwardbackwards_tick = (537.7 / (3.1415926 * 9.6));
-    public final double GRABBER_OPEN_POSITION = 0.1;
-    public final double GRABBER_CLOSED_POSITION = 1.0;
-    public final double DRONE_OPEN_POSITION = 0.2;//change
-    public final double DRONE_CLOSED_POSITION = 1.0;
-
-    public final double TILTER_PLACE = 0.76;//test
-    public final double TILTER_PICKUP = 0.515; //test
-
-    public final int ARM_MAXIMUM = -11862;//test
-    public final int ARM_MINIMUM = 0;//change this?
     public final double SQUARE_LENGTH = 60.96; //centimeters
     public final double COUNTS_PER_MOTOR_REV = 537.7;
     public final double DRIVE_GEAR_REDUCTION = 1.0;
@@ -107,7 +81,7 @@ public class RobotHardwareMethods16523 {
             (Math.PI * DRIVE_WHEEL_DIAMETER_MM / 10); // Convert from mm to cm
     public final double WHEEL_BASE_WIDTH_CM = 2 * DRIVE_WHEEL_DIAMETER_MM / 10; // Convert from mm to cm
     public final double COUNTS_PER_DEGREE = COUNTS_PER_CM * Math.PI * WHEEL_BASE_WIDTH_CM / 360.0;
-    private void resetAngle(){
+    private void resetAngle(){//dont mess with this either, ties back into the mystery of imu1 and pivot
         Orientation lastAngles = imu1.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         globalAngle = 0;
     }
@@ -125,67 +99,18 @@ public class RobotHardwareMethods16523 {
         lastAngles = angles;
         return globalAngle;
     }
-    /**
-     * Initialize all the robot's hardware.
-     * This method must be called ONCE when the OpMode is initialized.
-     * <p>
-     * All of the hardware devices are accessed via the hardware map, and initialized.
-     */
     public void init(HardwareMap hardwareMap) {
+        hardwareMap = hardwareMap;
         leftFrontDrive = hardwareMap.get(DcMotor.class, "left_front_drive");
         leftBackDrive = hardwareMap.get(DcMotor.class, "left_back_drive");
         rightFrontDrive = hardwareMap.get(DcMotor.class, "right_front_drive");
         rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
-        arm = hardwareMap.get(DcMotor.class, "arm");
-        grabber = hardwareMap.get(Servo.class, "grabber");
-        tilter = hardwareMap.get(Servo.class, "tilter");
-        droneLauncher = hardwareMap.get(Servo.class,"dronelauncher");//add to config file
         leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
-        arm.setDirection(DcMotor.Direction.FORWARD);
-        grabber.setDirection(Servo.Direction.FORWARD);
-        tilter.setDirection(Servo.Direction.FORWARD);
-        droneLauncher.setDirection(Servo.Direction.FORWARD);
-//        myOpMode.telemetry.addData(">", "Hardware Initialized");
-//        myOpMode.telemetry.update();
     }
 
-    public void openGrabber() {
-        grabber.setPosition(GRABBER_OPEN_POSITION);
-    }
-
-    public void closeGrabber() {
-        grabber.setPosition(GRABBER_CLOSED_POSITION);
-    }
-
-    public void tilterplace() {
-        tilter.setPosition(TILTER_PLACE);
-    }
-
-    public void tilterpickup() {
-        tilter.setPosition(TILTER_PICKUP);
-    }
-
-    public void toggleGrabber() {
-
-        boolean isClosed = grabber.getPosition() > GRABBER_OPEN_POSITION;
-
-        if (isClosed)
-            grabber.setPosition(GRABBER_OPEN_POSITION);
-
-        if (!isClosed)
-            grabber.setPosition(GRABBER_CLOSED_POSITION);
-
-//        if(grabberPosition  <= GRABBER_OPEN_POSITION) {
-//            grabber.setPosition(GRABBER_CLOSED_POSITION);
-//        } else if(grabberPosition >= GRABBER_CLOSED_POSITION && grabberPosition < GRABBER_OPEN_POSITION){
-//            grabber.setPosition(GRABBER_CLOSED_POSITION);
-//        } else {
-//            grabber.setPosition(GRABBER_OPEN_POSITION);
-//        }
-    }
 
     public void pivot(int degrees, double power) {
         int targetPosition = (int) (degrees * COUNTS_PER_DEGREE);
@@ -226,69 +151,8 @@ public class RobotHardwareMethods16523 {
         rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
-    public void launchDrone() { //test
-        double droneServoPosition = 0.0;
-        droneServoPosition = droneLauncher.getPosition();
-        try {
-            if (droneServoPosition == DRONE_CLOSED_POSITION) {
-                droneLauncher.setPosition(DRONE_OPEN_POSITION);
-                Thread.sleep(1000);//shorter duration to close the drone launcher
-                droneLauncher.setPosition(DRONE_CLOSED_POSITION);
-            } else {
-                droneLauncher.setPosition(DRONE_CLOSED_POSITION);
-            }
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            return;
-        }
-    }
 
-    public void moveArm(double power) {
-        //if (arm.getCurrentPosition() >= ARM_MAXIMUM) {
-         //   arm.setTargetPosition(ARM_MAXIMUM+100);
-        //}
-        //if (arm.getCurrentPosition() <= ARM_MINIMUM) {
-        //    arm.setTargetPosition(ARM_MINIMUM-100);
-        //}
-        arm.setPower(power);
 
-       /* while (arm.isBusy()) {
-
-        }
-        if (arm.getCurrentPosition() >= ARM_MAXIMUM) {
-
-        }
-        if (arm.getCurrentPosition() <= ARM_MINIMUM) {
-
-        }
-        arm.setPower(power);*/
-    }
-    public void armPosition(double target, double power){
-        arm.setTargetPosition((int)(target*tpr_arm));
-        arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        arm.setPower(Math.abs(power));
-        while(arm.isBusy()) {
-        }
-        if (arm.getCurrentPosition() >= ARM_MAXIMUM) {
-            arm.setTargetPosition(ARM_MAXIMUM+100);
-        }
-        if (arm.getCurrentPosition() <= ARM_MINIMUM) {
-            arm.setTargetPosition(ARM_MINIMUM-100);
-        }
-     //   arm.setPower(power);
-
-    }
-    //public void moveTilter(double power){
-    //}
-    /*
-    BUTTON A:
-    arm down
-    tilt at 90 degrees/the floor
-    grab pixel
-    tilt up
-    BUTTON B:
-    lift the arm to desired position
-     */
     public void rotate(double degrees, double power) {
         double leftfrontpower = 0;
         double rightfrontpower = 0;
@@ -334,67 +198,6 @@ public class RobotHardwareMethods16523 {
         resetAngle();
     }
 
-    public void moveArmToPosition(double power, int targetPosition) {
-        // Check if the target position is within the allowed range
-        if (targetPosition >= ARM_MAXIMUM) {
-            targetPosition = ARM_MAXIMUM;
-        } else if (targetPosition <= ARM_MINIMUM) {
-            targetPosition = ARM_MINIMUM;
-        }
-
-        arm.setTargetPosition(targetPosition);
-        arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        arm.setPower(power);
-
-        while (arm.isBusy()) {
-            // Wait until the arm reaches the target position
-            // You can add other logic here if needed
-        }
-
-        arm.setPower(0); // Stop the arm
-        arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER); // Switch back to encoder mode
-    }
-    public void sequence_attachments_a() {
-       /* while (arm.isBusy()) {
-        }*/
-        if (arm.getCurrentPosition() < ARM_MAXIMUM) {
-        }
-        if (arm.getCurrentPosition() > ARM_MINIMUM) {
-        }
-        try {
-            closeGrabber();
-            Thread.sleep(200);
-            tilterpickup();
-            Thread.sleep(200);
-            armPosition(-45,.7);
-            Thread.sleep(200);
-            openGrabber();
-            Thread.sleep(200);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
-    }
-
-    public void sequence_attachments_b() {
-       // while (arm.isBusy()) {
-        //}
-        if (arm.getCurrentPosition() < ARM_MAXIMUM) {
-        }
-        if (arm.getCurrentPosition() > ARM_MINIMUM) {
-        }
-        try {
-            armPosition(-5000,.7);
-            Thread.sleep(200);
-            tilterplace();
-            Thread.sleep(200);
-            closeGrabber();
-            Thread.sleep(200);
-            tilterpickup();
-            Thread.sleep(200);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
-    }
 
     public void strafe(double distance, double power) {
         int leftfronttarget = leftFrontDrive.getCurrentPosition() + (int) (distance * DRIVE_COUNTS_PER_CENTIMETERS); //offset
@@ -440,7 +243,6 @@ public class RobotHardwareMethods16523 {
         rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);*/
 
     }
-    //public void strafe_right(double distance, double power);
     public void strafeRight(double distanceCm, double power) {
         double strafeRightDistance = (Math.abs(distanceCm));
         strafe(strafeRightDistance, power);
@@ -486,39 +288,4 @@ public class RobotHardwareMethods16523 {
         rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
     }
-
-    final double SPEED_GAIN = 0.02;   //  Forward Speed Control "Gain". eg: Ramp up to 50% power at a 25 inch error.   (0.50 / 25.0)
-    final double STRAFE_GAIN = 0.015;   //  Strafe Speed Control "Gain".  eg: Ramp up to 25% power at a 25 degree Yaw error.   (0.25 / 25.0)
-    final double TURN_GAIN = 0.01;   //  Turn Control "Gain".  eg: Ramp up to 25% power at a 25 degree error. (0.25 / 25.0)
-
-    final double MAX_AUTO_SPEED = 0.5;   //  Clip the approach speed to this max value (adjust for your robot)
-    final double MAX_AUTO_STRAFE = 0.5;   //  Clip the approach speed to this max value (adjust for your robot)
-    final double MAX_AUTO_TURN = 0.3;   //  Clip the turn speed to this max value (adjust for your robot)
-
-    private static final boolean USE_WEBCAM = true;  // Set true to use a webcam, or false for a phone camera
-    private static final int DESIRED_TAG_ID = -1;     // Choose the tag you want to approach or set to -1 for ANY tag.
-    private VisionPortal visionPortal;               // Used to manage the video source.
-    private AprilTagProcessor aprilTag;
-    // Used for managing the AprilTag detection process.
-    private AprilTagDetection desiredTag = null;// Used to hold the data for a detected AprilTag
-    /*class AprilTag {
-        private void initAprilTag() {
-            // Create the AprilTag processor by using a builder.
-            aprilTag = new AprilTagProcessor.Builder().build();
-            RobotHardwareMethods16523 robot = new RobotHardwareMethods16523();
-
-            // Create the vision portal by using a builder.
-            if (USE_WEBCAM) {
-                visionPortal = new VisionPortal.Builder()
-                        .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
-                        .addProcessor(aprilTag)
-                        .build();
-            } else {
-                visionPortal = new VisionPortal.Builder()
-                        .setCamera(BuiltinCameraDirection.BACK)
-                        .addProcessor(aprilTag)
-                        .build();
-            }
-        }
-    }*/
 }
