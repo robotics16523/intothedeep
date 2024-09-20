@@ -42,25 +42,6 @@ import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
-/*
- * This file works in conjunction with the External Hardware Class sample called: ConceptExternalHardwareClass.java
- * Please read the explanations in that Sample about how to use this class definition.
- *
- * This file defines a Java Class that performs all the setup and configuration for a sample robot's hardware (motors and sensors).
- * It assumes three motors (left_drive, right_drive and arm) and two servos (left_hand and right_hand)
- *
- * This one file/class can be used by ALL of your OpModes without having to cut & paste the code each time.
- *
- * Where possible, the actual hardware objects are "abstracted" (or hidden) so the OpMode code just makes calls into the class,
- * rather than accessing the internal hardware directly. This is why the objects are declared "private".
- *
- * Use Android Studio to Copy this Class, and Paste it into your team's code folder with *exactly the same name*.
- *
- * Or... In OnBot Java, add a new file named RobotHardware.java, select this sample, and select Not an OpMode.
- * Also add a new OpMode, select the sample ConceptExternalHardwareClass.java, and select TeleOp.
- *
- */
-
 public class RobotMethods {
     public DcMotor leftFrontDrive = null;
     public DcMotor leftBackDrive = null;
@@ -69,11 +50,10 @@ public class RobotMethods {
     public BNO055IMU imu1 = null;//this looks like an encoder but im not too sure just dont mess with it
     double globalAngle,power = 0.3,Correction;//same applies for the global angle and orientation
     Orientation lastAngles = new Orientation();
-    double strafe_tick = (537.7 / (3.1415926 * 9.6));
-    double forwardbackwards_tick = (537.7 / (3.1415926 * 9.6));
+    double tick = (537.7 / (3.1415926 * 9.6));
     public final double SQUARE_LENGTH = 60.96; //centimeters
     public final double COUNTS_PER_MOTOR_REV = 537.7;
-    public final double DRIVE_GEAR_REDUCTION = 1.0;
+    public final double DRIVE_GEAR_REDUCTION = 1.001;
     public final double DRIVE_WHEEL_DIAMETER_CENTIMETERS = 9.6;
     public final double DRIVE_COUNTS_PER_CENTIMETERS = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (DRIVE_WHEEL_DIAMETER_CENTIMETERS*3.1415);
     public final double DRIVE_WHEEL_DIAMETER_MM = 96.0; // Diameter of the wheel
