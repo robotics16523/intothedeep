@@ -74,12 +74,10 @@ public class CenterstageTeleOp16523 extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
             double max;
-            double max2;
             // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
-            double axial   = -gamepad1.left_stick_y;  // Note: pushing stick forward gives negative value
+            double axial   = gamepad1.left_stick_y;  // Note: pushing stick forward gives POSITIVE value
             double lateral =  gamepad1.left_stick_x;
             double yaw     =  gamepad1.right_stick_x;
-
             // Combine the joystick requests for each axis-motion to determine each wheel's power.
             // Set up a variable for each drive wheel to save the power level for telemetry.
             double leftFrontPower  = axial + lateral + yaw;
@@ -104,6 +102,31 @@ public class CenterstageTeleOp16523 extends LinearOpMode {
             robot.rightFrontDrive.setPower(rightFrontPower*0.65);
             robot.rightBackDrive.setPower(rightBackPower*0.65);
 
+            //my (finn's) idea with this controller map is to make it like a video game
+            //this way the drivers actually will have these controls in their muscle memory, and can drive easier
+            //if(gamepad2.left_trigger >0.1){
+                //add code to raise the arm using this model:
+                //robot.armRaise(gamepad1.left_trigger)
+                //left trigger returns a float, so we can raise the arm by the amount that trigger is being pressed by
+            //}
+            //if(gamepad2.right_trigger >0.1){
+                //robot.grabberToggle();
+            //}
+            if(gamepad1.dpad_left){
+                robot.quickpivot_left();
+            }if(gamepad1.dpad_right){
+                robot.quickpivot_right();
+            }if(gamepad1.dpad_down){
+                robot.quickpivot_down();
+            }if(gamepad1.dpad_up){
+                robot.quickpivot_up();
+            }
+            if(gamepad1.back){
+                robot.reverseArmControls();
+                //the base of our armRaise method relies on a boolean that is either negative to go down or positive to go up
+                //this function flips the boolean set in our hardware map and that boolean gets passed to the arm raise, therefore changing the direction of the arm while still using the same button to conserve space
+            }
+
             // Send calculated power to wheels
             robot.leftFrontDrive.setPower(leftFrontPower);
             robot.rightFrontDrive.setPower(rightFrontPower);
@@ -112,6 +135,11 @@ public class CenterstageTeleOp16523 extends LinearOpMode {
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower,    rightFrontPower);
             telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
+            if(robot.armIsGoingDown){
+                telemetry.addLine("YOUR ARM IS GOING DOWN, CAUTION NOT TO BREAK ANYTHING!");
+            } else {
+                telemetry.addLine("YOUR ARM IS GOING UP, CAUTION NOT TO BREAK ANYTHING!");
+            }
             telemetry.update();
 
         }

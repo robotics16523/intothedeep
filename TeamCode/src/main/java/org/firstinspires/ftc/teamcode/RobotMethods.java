@@ -47,6 +47,7 @@ public class RobotMethods {
     public DcMotor leftBackDrive = null;
     public DcMotor rightFrontDrive = null;
     public DcMotor rightBackDrive = null;
+    public DcMotor arm = null;
     public BNO055IMU imu1 = null;//this looks like an encoder but im not too sure just dont mess with it
     double globalAngle,power = 0.3,Correction;//same applies for the global angle and orientation
     Orientation lastAngles = new Orientation();
@@ -61,9 +62,17 @@ public class RobotMethods {
             (Math.PI * DRIVE_WHEEL_DIAMETER_MM / 10); // Convert from mm to cm
     public final double WHEEL_BASE_WIDTH_CM = 2 * DRIVE_WHEEL_DIAMETER_MM / 10; // Convert from mm to cm
     public final double COUNTS_PER_DEGREE = COUNTS_PER_CM * Math.PI * WHEEL_BASE_WIDTH_CM / 360.0;
+    public boolean armIsGoingDown = false;
     private void resetAngle(){//dont mess with this either, ties back into the mystery of imu1 and pivot
         Orientation lastAngles = imu1.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         globalAngle = 0;
+    }
+    public void raiseArm(boolean isNegative, double power) {
+        if(isNegative) {
+            arm.setPower(-power);
+        } else {
+            arm.setPower(power);
+        }
     }
     private double getAngle() {
         Orientation angles = imu1.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
@@ -178,6 +187,26 @@ public class RobotMethods {
         resetAngle();
     }
 
+    public void quickpivot_left(){//negative 90 or 90? not sure without having robot needs test
+        double degreesNeeded = 90 - getAngle();
+        rotate(degreesNeeded, 0.9);
+    }
+    public void quickpivot_right(){//negative 90 or 90? not sure without having robot needs test
+        double degreesNeeded = 90 - getAngle();
+        rotate(-degreesNeeded, 0.9);
+    }
+    public void quickpivot_down(){//negative 180 or 180? not sure without having robot needs test
+        double degreesNeeded = 180 - getAngle();
+        rotate(degreesNeeded, 0.9);
+    }
+    public void quickpivot_up(){//negative 90 or 90? not sure without having robot needs test
+        double degreesNeeded = 90 - getAngle();
+        rotate(degreesNeeded, 0.9);
+    }
+
+    public void reverseArmControls(){
+        armIsGoingDown = true;
+    }
 
     public void strafe(double distance, double power) {
         int leftfronttarget = leftFrontDrive.getCurrentPosition() + (int) (distance * DRIVE_COUNTS_PER_CENTIMETERS); //offset
@@ -266,6 +295,5 @@ public class RobotMethods {
         leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
     }
 }
