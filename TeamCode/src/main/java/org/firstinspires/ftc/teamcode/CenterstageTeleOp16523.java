@@ -121,11 +121,13 @@ public class CenterstageTeleOp16523 extends LinearOpMode {
             }if(gamepad1.dpad_up){
                 robot.quickpivot_up();
             }
-            if(gamepad1.back){
-                robot.reverseArmControls();
+            //if(gamepad1.back){
+                //robot.reverseArmControls();
                 //the base of our armRaise method relies on a boolean that is either negative to go down or positive to go up
                 //this function flips the boolean set in our hardware map and that boolean gets passed to the arm raise, therefore changing the direction of the arm while still using the same button to conserve space
-            }
+            //
+            //}
+
 
             // Send calculated power to wheels
             robot.leftFrontDrive.setPower(leftFrontPower);
@@ -135,11 +137,11 @@ public class CenterstageTeleOp16523 extends LinearOpMode {
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower,    rightFrontPower);
             telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
-            if(robot.armIsGoingDown){
-                telemetry.addLine("YOUR ARM IS GOING DOWN, CAUTION NOT TO BREAK ANYTHING!");
-            } else {
-                telemetry.addLine("YOUR ARM IS GOING UP, CAUTION NOT TO BREAK ANYTHING!");
-            }
+            //if(robot.armIsGoingDown){
+                //telemetry.addLine("YOUR ARM IS GOING DOWN, CAUTION NOT TO BREAK ANYTHING!");
+            //} else {
+                //telemetry.addLine("YOUR ARM IS GOING UP, CAUTION NOT TO BREAK ANYTHING!");
+            //}
             telemetry.update();
 
         }

@@ -27,6 +27,8 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+
+//CHARGE CONTROL HUBS
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
@@ -52,7 +54,7 @@ public class RobotMethods {
     double globalAngle,power = 0.3,Correction;//same applies for the global angle and orientation
     Orientation lastAngles = new Orientation();
     double tick = (537.7 / (3.1415926 * 9.6));
-    public final double SQUARE_LENGTH = 60.96; //centimeters
+    public final double SQUARE_LENGTH = 60.96; //square centimeters
     public final double COUNTS_PER_MOTOR_REV = 537.7;
     public final double DRIVE_GEAR_REDUCTION = 1.001;
     public final double DRIVE_WHEEL_DIAMETER_CENTIMETERS = 9.6;
