@@ -102,9 +102,8 @@ public class RobotMethods {
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
     }
 
-
-    public void pivot(int degrees, double power) {
-        int targetPosition = (int) (degrees * COUNTS_PER_DEGREE);
+    public void pivot(int degreesNeeded, double power) {
+        int targetPosition = (int) (degreesNeeded * COUNTS_PER_DEGREE);
 
         // Set target positions for each motor
         leftFrontDrive.setTargetPosition(targetPosition);
@@ -142,6 +141,69 @@ public class RobotMethods {
         rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
+//    public void pivot2(double distanceCm, double power) {
+//        int leftFrontTargetPosition = leftFrontDrive.getCurrentPosition() - (int) (distanceCm * DRIVE_COUNTS_PER_CENTIMETERS);
+//        int leftBackTargetPosition = leftBackDrive.getCurrentPosition() - (int) (distanceCm * DRIVE_COUNTS_PER_CENTIMETERS);
+//        int rightFrontTargetPosition = rightFrontDrive.getCurrentPosition() + (int) (distanceCm * DRIVE_COUNTS_PER_CENTIMETERS);
+//        int rightBackTargetPosition = rightBackDrive.getCurrentPosition() + (int) (distanceCm * DRIVE_COUNTS_PER_CENTIMETERS);
+//
+//        leftFrontDrive.setTargetPosition(leftFrontTargetPosition);
+//        leftBackDrive.setTargetPosition(leftBackTargetPosition);
+//        rightFrontDrive.setTargetPosition(rightFrontTargetPosition);
+//        rightBackDrive.setTargetPosition(rightBackTargetPosition);
+//
+//        leftFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        leftBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        rightFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        rightBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//
+//        leftFrontDrive.setPower(Math.abs(power));
+//        leftBackDrive.setPower(Math.abs(power));
+//        rightFrontDrive.setPower(Math.abs(power));
+//        rightBackDrive.setPower(Math.abs(power));
+//        while (leftFrontDrive.isBusy() && leftBackDrive.isBusy() && rightFrontDrive.isBusy() && rightBackDrive.isBusy()) {
+//        }
+//    }
+//
+//    public void pivot(int degrees, double power) {
+//        int targetPosition = (int) (degrees * COUNTS_PER_DEGREE);
+//
+//        // Set target positions for each motor
+//        leftFrontDrive.setTargetPosition(targetPosition);
+//        leftBackDrive.setTargetPosition(targetPosition);
+//        rightFrontDrive.setTargetPosition(targetPosition);
+//        rightBackDrive.setTargetPosition(targetPosition);
+//
+//        // Set motor modes to RUN_TO_POSITION
+//        leftFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        leftBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        rightFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        rightBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//
+//        // Set power for each motor
+//        leftFrontDrive.setPower(power);
+//        leftBackDrive.setPower(power);
+//        rightFrontDrive.setPower(power);
+//        rightBackDrive.setPower(power);
+//
+//        // Wait until all motors reach the target position
+//        while (leftFrontDrive.isBusy() || leftBackDrive.isBusy() ||
+//                rightFrontDrive.isBusy() || rightBackDrive.isBusy()) {
+//            // You can add other logic here if needed
+//        }
+//
+//        // Stop all motors
+//        leftFrontDrive.setPower(0);
+//        leftBackDrive.setPower(0);
+//        rightFrontDrive.setPower(0);
+//        rightBackDrive.setPower(0);
+//
+//        // Switch back to encoder mode for all motors
+//        leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//    }
 
 
     public void rotate(double degrees, double power) {
@@ -190,20 +252,20 @@ public class RobotMethods {
     }
 
     public void quickpivot_left(){//negative 90 or 90? not sure without having robot needs test
-        double degreesNeeded = 90 - getAngle();
-        rotate(degreesNeeded, 0.9);
+        double degreesNeeded = 90 - (int)getAngle();
+        pivot((int) degreesNeeded, 0.9);
     }
     public void quickpivot_right(){//negative 90 or 90? not sure without having robot needs test
-        double degreesNeeded = 90 - getAngle();
-        rotate(-degreesNeeded, 0.9);
+        double degreesNeeded = 90 - (int)getAngle();
+        pivot((int) -degreesNeeded, 0.9);
     }
     public void quickpivot_down(){//negative 180 or 180? not sure without having robot needs test
-        double degreesNeeded = 180 - getAngle();
-        rotate(degreesNeeded, 0.9);
+        double degreesNeeded = 180 - (int)getAngle();
+        pivot((int) degreesNeeded, 0.9);
     }
     public void quickpivot_up(){//negative 90 or 90? not sure without having robot needs test
-        double degreesNeeded = 90 - getAngle();
-        rotate(degreesNeeded, 0.9);
+        int degreesNeeded = 90 - (int)getAngle();
+        pivot(degreesNeeded, 0.9);
     }
 
     public void reverseArmControls(){
