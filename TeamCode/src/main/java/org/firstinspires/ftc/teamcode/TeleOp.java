@@ -61,7 +61,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Omni_v1", group="Linear OpMode")
+@TeleOp(name="Omni_v2", group="Linear OpMode")
 public class CenterstageTeleOp16523 extends LinearOpMode {
     RobotMethods robot = new RobotMethods();
     private ElapsedTime runtime = new ElapsedTime();
@@ -69,57 +69,57 @@ public class CenterstageTeleOp16523 extends LinearOpMode {
     public void runOpMode() {
         robot.init(hardwareMap);
         waitForStart();
-        runtime.reset();
+                runtime.reset();
 
-        // run until the end of the match (driver presses STOP)
-        while (opModeIsActive()) {
-            double max;
-            // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
-            double axial   = gamepad1.left_stick_y;  // Note: pushing stick forward gives POSITIVE value
-            double lateral =  gamepad1.left_stick_x;
-            double yaw     =  gamepad1.right_stick_x;
-            // Combine the joystick requests for each axis-motion to determine each wheel's power.
-            // Set up a variable for each drive wheel to save the power level for telemetry.
-            double leftFrontPower  = axial + lateral + yaw;
-            double rightFrontPower = axial - lateral - yaw;
-            double leftBackPower   = axial - lateral + yaw;
-            double rightBackPower  = axial + lateral - yaw;
+                // run until the end of the match (driver presses STOP)
+                while (opModeIsActive()) {
+                    double max;
+                    // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
+                    double axial   = gamepad1.left_stick_y;  // Note: pushing stick forward gives POSITIVE value
+                    double lateral =  gamepad1.left_stick_x;
+                    double yaw     =  gamepad1.right_stick_x;
+                    // Combine the joystick requests for each axis-motion to determine each wheel's power.
+                    // Set up a variable for each drive wheel to save the power level for telemetry.
+                    double leftFrontPower  = axial + lateral + yaw;
+                    double rightFrontPower = axial - lateral - yaw;
+                    double leftBackPower   = axial - lateral + yaw;
+                    double rightBackPower  = axial + lateral - yaw;
 
-            // Normalize the values so no wheel power exceeds 100%
-            // This ensures that the robot maintains the desired motion.
-            max = Math.max(Math.abs(leftFrontPower), Math.abs(rightFrontPower));
-            max = Math.max(max, Math.abs(leftBackPower));
-            max = Math.max(max, Math.abs(rightBackPower));
+                    // Normalize the values so no wheel power exceeds 100%
+                    // This ensures that the robot maintains the desired motion.
+                    max = Math.max(Math.abs(leftFrontPower), Math.abs(rightFrontPower));
+                    max = Math.max(max, Math.abs(leftBackPower));
+                    max = Math.max(max, Math.abs(rightBackPower));
 
-            if (max > 1.0) {
-                leftFrontPower  /= max;
-                rightFrontPower /= max;
-                leftBackPower   /= max;
-                rightBackPower  /= max;
-            }
-            robot.leftFrontDrive.setPower(leftFrontPower*0.65);
-            robot.leftBackDrive.setPower(leftBackPower*0.65);
-            robot.rightFrontDrive.setPower(rightFrontPower*0.65);
-            robot.rightBackDrive.setPower(rightBackPower*0.65);
+                    if (max > 1.0) {
+                        leftFrontPower  /= max;
+                        rightFrontPower /= max;
+                        leftBackPower   /= max;
+                        rightBackPower  /= max;
+                    }
+                    robot.leftFrontDrive.setPower(leftFrontPower*0.65);
+                    robot.leftBackDrive.setPower(leftBackPower*0.65);
+                    robot.rightFrontDrive.setPower(rightFrontPower*0.65);
+                    robot.rightBackDrive.setPower(rightBackPower*0.65);
 
-            //my (finn's) idea with this controller map is to make it like a video game
-            //this way the drivers actually will have these controls in their muscle memory, and can drive easier
-            //if(gamepad2.left_trigger >0.1){
-                //add code to raise the arm using this model:
-                //robot.armRaise(gamepad1.left_trigger)
-                //left trigger returns a float, so we can raise the arm by the amount that trigger is being pressed by
-            //}
-            //if(gamepad2.right_trigger >0.1){
-                //robot.grabberToggle();
-            //}
-            if(gamepad1.dpad_left){
-                robot.quickpivot_left();
-            }if(gamepad1.dpad_right){
-                robot.quickpivot_right();
-            }if(gamepad1.dpad_down){
-                robot.quickpivot_down();
-            }if(gamepad1.dpad_up){
-                robot.quickpivot_up();
+                    //my (finn's) idea with this controller map is to make it like a video game
+                    //this way the drivers actually will have these controls in their muscle memory, and can drive easier
+                    //if(gamepad2.left_trigger >0.1){
+                    //add code to raise the arm using this model:
+                    //robot.armRaise(gamepad1.left_trigger)
+                    //left trigger returns a float, so we can raise the arm by the amount that trigger is being pressed by
+                    //}
+                    //if(gamepad2.right_trigger >0.1){
+                    //robot.grabberToggle();
+                    //}
+                    if(gamepad1.dpad_left){
+                        robot.quickpivot_left();
+                    }if(gamepad1.dpad_right){
+                        robot.quickpivot_right();
+                    }if(gamepad1.dpad_down){
+                        robot.quickpivot_down();
+                    }if(gamepad1.dpad_up){
+                        robot.quickpivot_up();
             }
             //if(gamepad1.back){
                 //robot.reverseArmControls();
