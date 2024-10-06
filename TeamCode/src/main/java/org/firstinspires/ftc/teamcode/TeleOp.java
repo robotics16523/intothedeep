@@ -30,7 +30,6 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /*
@@ -61,8 +60,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Omni_v2", group="Linear OpMode")
-public class CenterstageTeleOp16523 extends LinearOpMode {
+@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="TeleOp_3", group="Linear OpMode")
+public class TeleOp extends LinearOpMode {
     RobotMethods robot = new RobotMethods();
     private ElapsedTime runtime = new ElapsedTime();
     @Override
@@ -112,15 +111,21 @@ public class CenterstageTeleOp16523 extends LinearOpMode {
                     //if(gamepad2.right_trigger >0.1){
                     //robot.grabberToggle();
                     //}
+
+                    // DO WE WANT JOYSTICK CONTROLLING SPIN????
                     if(gamepad1.dpad_left){
-                        robot.quickpivot_left();
+                        robot.spinLeft(56,.75);
                     }if(gamepad1.dpad_right){
-                        robot.quickpivot_right();
-                    }if(gamepad1.dpad_down){
-                        robot.quickpivot_down();
-                    }if(gamepad1.dpad_up){
-                        robot.quickpivot_up();
-            }
+                        robot.spinRight(56,.75);
+                        // 30 cm is 45 degrees-ish. Our guess is that 54 is a perfect 90
+                        // No pivot function - just spin
+                    }
+
+//                    if(gamepad1.dpad_down){
+//                        robot.quickpivot_down();
+//                    }if(gamepad1.dpad_up){
+//                        robot.quickpivot_up();
+//            }
             //if(gamepad1.back){
                 //robot.reverseArmControls();
                 //the base of our armRaise method relies on a boolean that is either negative to go down or positive to go up
