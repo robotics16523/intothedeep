@@ -59,7 +59,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
-
+// KEEP REV OPEN WHEN PUSHING
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="TeleOp_3", group="Linear OpMode")
 public class TeleOp extends LinearOpMode {
     RobotMethods robot = new RobotMethods();
