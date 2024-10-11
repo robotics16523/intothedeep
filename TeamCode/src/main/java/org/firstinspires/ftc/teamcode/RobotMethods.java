@@ -396,6 +396,8 @@ public class RobotMethods {
         int rightfronttarget = rightFrontDrive.getCurrentPosition() + (int) (distance * DRIVE_COUNTS_PER_CENTIMETERS);
         int rightbacktarget = rightBackDrive.getCurrentPosition() + (int) (distance * DRIVE_COUNTS_PER_CENTIMETERS);
 
+
+
         leftFrontDrive.setTargetPosition(leftfronttarget);
         leftBackDrive.setTargetPosition(leftbacktarget);
         rightBackDrive.setTargetPosition(rightbacktarget);
@@ -424,4 +426,14 @@ public class RobotMethods {
         rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
+    public void driveForward(double distance, double power) {
+       double driveDistance = Math.abs(distance);
+        drive(driveDistance,power);
+
+    }
+    public void driveBackward(double distance, double power) {
+        double driveDistance = -(Math.abs(distance));
+        drive(driveDistance,power);
+    }
+
 }
