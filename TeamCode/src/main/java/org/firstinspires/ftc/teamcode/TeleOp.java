@@ -69,7 +69,6 @@ public class TeleOp extends LinearOpMode {
         robot.init(hardwareMap);
         waitForStart();
                 runtime.reset();
-
                 // run until the end of the match (driver presses STOP)
                 while (opModeIsActive()) {
                     double max;
@@ -112,26 +111,26 @@ public class TeleOp extends LinearOpMode {
                     //robot.grabberToggle();
                     //}
 
-                    // DO WE WANT JOYSTICK CONTROLLING SPIN????
                     if(gamepad1.dpad_left){
                         robot.spinLeft(56,.75);
-                    }if(gamepad1.dpad_right){
-                        robot.spinRight(56,.75);
+                    }if(gamepad1.dpad_right) {
+                        robot.spinRight(56, .75);
+                    } if(gamepad1.dpad_up){
+                        robot.spinLeft(112,.75);
+                    }if(gamepad1.dpad_down){
+                        robot.spinRight(112,.75);
                         // 30 cm is 45 degrees-ish. Our guess is that 54 is a perfect 90
                         // No pivot function - just spin
+//                        from chatgpt's math: 45-degree spin: ~15 cm
+//                        90-degree spin: ~30 cm
+//                        180-degree spin: ~60 cm test this once we get the robot
                     }
 
-//                    if(gamepad1.dpad_down){
-//                        robot.quickpivot_down();
-//                    }if(gamepad1.dpad_up){
-//                        robot.quickpivot_up();
-//            }
-            //if(gamepad1.back){
-                //robot.reverseArmControls();
+            if(gamepad1.back){
+                robot.reverseArmControls();
                 //the base of our armRaise method relies on a boolean that is either negative to go down or positive to go up
                 //this function flips the boolean set in our hardware map and that boolean gets passed to the arm raise, therefore changing the direction of the arm while still using the same button to conserve space
-            //
-            //}
+            }
 
 
             // Send calculated power to wheels

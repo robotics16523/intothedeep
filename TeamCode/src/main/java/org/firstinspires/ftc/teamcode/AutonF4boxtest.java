@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.robot.Robot;
 
 public class AutonF4boxtest {
     @Autonomous(name = "Auton A2 2nd Rigging Spot 2 v6", group = "robot")
@@ -13,10 +12,10 @@ public class AutonF4boxtest {
         public void runOpMode() {
             robot.init(hardwareMap);
             waitForStart();
-            robot.driveForward(60.95,1);
-            robot.strafeLeft(60.95,1);
-            robot.driveBackward(60.95,1);
-            robot.strafeRight(60.95,1);
+            robot.driveForward(robot.SQUARE,0.75);
+            robot.strafeLeft(robot.SQUARE,0.75);
+            robot.driveBackward(robot.SQUARE,0.75);
+            robot.strafeRight(robot.SQUARE,0.75);
         }
     }
 }
