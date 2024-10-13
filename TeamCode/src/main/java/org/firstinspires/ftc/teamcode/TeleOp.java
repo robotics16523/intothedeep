@@ -60,7 +60,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 // KEEP REV OPEN WHEN PUSHING
-@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="TeleOp_3", group="Linear OpMode")
+@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="TeleOp_v4", group="Linear OpMode")
 public class TeleOp extends LinearOpMode {
     RobotMethods robot = new RobotMethods();
     private ElapsedTime runtime = new ElapsedTime();
@@ -110,7 +110,12 @@ public class TeleOp extends LinearOpMode {
                     //if(gamepad2.right_trigger >0.1){
                     //robot.grabberToggle();
                     //}
-
+                    if(gamepad2.left_trigger > 0){
+                        robot.extendHangingMotor(.75);
+                    }
+                    if(gamepad2.right_trigger > 0){
+                        robot.retractHangingMotor(.75);
+                    }
                     if(gamepad1.dpad_left){
                         robot.spinLeft(56,.75);
                     }if(gamepad1.dpad_right) {

@@ -32,6 +32,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class RobotMethods {
@@ -39,12 +40,13 @@ public class RobotMethods {
     public DcMotor leftBackDrive = null;
     public DcMotor rightFrontDrive = null;
     public DcMotor rightBackDrive = null;
+    public DcMotor hangingMotor = null;
     public final double COUNTS_PER_MOTOR_REV = 537.7;
     public final double DRIVE_WHEEL_DIAMETER_CENTIMETERS = 9.6;
     double strafeTick = (COUNTS_PER_MOTOR_REV / (Math.PI * DRIVE_WHEEL_DIAMETER_CENTIMETERS));
-    public final double SQUARE = 60.96; //square centimeters
+    public final double FIELD_TILE = 60.96; //square centimeters
     public final double DRIVE_GEAR_REDUCTION = 1.001;
-    public final double DRIVE_COUNTS_PER_CENTIMETERS = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (DRIVE_WHEEL_DIAMETER_CENTIMETERS*Math.PI);
+    public final double DRIVE_COUNTS_PER_CENTIMETERS = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (DRIVE_WHEEL_DIAMETER_CENTIMETERS * Math.PI);
     public final double DRIVE_WHEEL_DIAMETER_MM = 96.0; // Diameter of the wheel
     public final double COUNTS_PER_CM = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (Math.PI * DRIVE_WHEEL_DIAMETER_MM / 10); // Convert from mm to cm
@@ -57,10 +59,12 @@ public class RobotMethods {
         leftBackDrive = hardwareMap.get(DcMotor.class, "left_back_drive");
         rightFrontDrive = hardwareMap.get(DcMotor.class, "right_front_drive");
         rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
+        hangingMotor = hardwareMap.get(DcMotor.class, "hangingMotor");
         leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
+        hangingMotor.setDirection(DcMotor.Direction.FORWARD);
     }
 
 //    public void spin(double distance, double power, String direction){ TEST THIS
@@ -112,6 +116,7 @@ public class RobotMethods {
         rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
+
     public void spinRight(double distance, double power) {
         int leftfronttarget = leftFrontDrive.getCurrentPosition() + (int) (distance * DRIVE_COUNTS_PER_CENTIMETERS);
         int leftbacktarget = leftBackDrive.getCurrentPosition() + (int) (distance * DRIVE_COUNTS_PER_CENTIMETERS);
@@ -146,136 +151,19 @@ public class RobotMethods {
         rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
-//    public void pivot2(double distanceCm, double power) {
-//        int leftFrontTargetPosition = leftFrontDrive.getCurrentPosition() - (int) (distanceCm * DRIVE_COUNTS_PER_CENTIMETERS);
-//        int leftBackTargetPosition = leftBackDrive.getCurrentPosition() - (int) (distanceCm * DRIVE_COUNTS_PER_CENTIMETERS);
-//        int rightFrontTargetPosition = rightFrontDrive.getCurrentPosition() + (int) (distanceCm * DRIVE_COUNTS_PER_CENTIMETERS);
-//        int rightBackTargetPosition = rightBackDrive.getCurrentPosition() + (int) (distanceCm * DRIVE_COUNTS_PER_CENTIMETERS);
-//
-//        leftFrontDrive.setTargetPosition(leftFrontTargetPosition);
-//        leftBackDrive.setTargetPosition(leftBackTargetPosition);
-//        rightFrontDrive.setTargetPosition(rightFrontTargetPosition);
-//        rightBackDrive.setTargetPosition(rightBackTargetPosition);
-//
-//        leftFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//        leftBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//        rightFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//        rightBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//
-//        leftFrontDrive.setPower(Math.abs(power));
-//        leftBackDrive.setPower(Math.abs(power));
-//        rightFrontDrive.setPower(Math.abs(power));
-//        rightBackDrive.setPower(Math.abs(power));
-//        while (leftFrontDrive.isBusy() && leftBackDrive.isBusy() && rightFrontDrive.isBusy() && rightBackDrive.isBusy()) {
-//        }
-//    }
-//
-//    public void pivot(int degrees, double power) {
-//        int targetPosition = (int) (degrees * COUNTS_PER_DEGREE);
-//
-//        // Set target positions for each motor
-//        leftFrontDrive.setTargetPosition(targetPosition);
-//        leftBackDrive.setTargetPosition(targetPosition);
-//        rightFrontDrive.setTargetPosition(targetPosition);
-//        rightBackDrive.setTargetPosition(targetPosition);
-//
-//        // Set motor modes to RUN_TO_POSITION
-//        leftFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//        leftBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//        rightFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//        rightBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//
-//        // Set power for each motor
-//        leftFrontDrive.setPower(power);
-//        leftBackDrive.setPower(power);
-//        rightFrontDrive.setPower(power);
-//        rightBackDrive.setPower(power);
-//
-//        // Wait until all motors reach the target position
-//        while (leftFrontDrive.isBusy() || leftBackDrive.isBusy() ||
-//                rightFrontDrive.isBusy() || rightBackDrive.isBusy()) {
-//            // You can add other logic here if needed
-//        }
-//
-//        // Stop all motors
-//        leftFrontDrive.setPower(0);
-//        leftBackDrive.setPower(0);
-//        rightFrontDrive.setPower(0);
-//        rightBackDrive.setPower(0);
-//
-//        // Switch back to encoder mode for all motors
-//        leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//    }
+
+    public void extendHangingMotor(double power) {
+        hangingMotor.setPower(Math.abs(power));
+    }
+
+    public void retractHangingMotor(double power) {
+        hangingMotor.setPower(-(Math.abs(power)));
+    }
 
 
-//    public void rotate(double degrees, double power) {
-//        double leftfrontpower = 0;
-//        double rightfrontpower = 0;
-//        double leftbackpower = 0;
-//        double rightbackpower = 0;
-//        leftFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-//        rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-//        leftBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-//        rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-//
-//        if (degrees > 0) {
-//            degrees = degrees - 12;
-//            leftfrontpower = power;
-//            rightfrontpower = -power;
-//            leftbackpower = power;
-//            rightbackpower = -power;
-//        } else if (degrees < 0) {
-//            degrees = degrees + 12;
-//            leftfrontpower = -power;
-//            rightfrontpower = power;
-//            leftbackpower = -power;
-//            rightbackpower = power;
-//        } else {
-//            leftFrontDrive.setPower(leftfrontpower);
-//            rightFrontDrive.setPower(rightfrontpower);
-//            leftBackDrive.setPower(leftbackpower);
-//            rightBackDrive.setPower(rightbackpower);
-//        }
-//        while (getAngle() == 0) {
-//        }
-//
-//        if (degrees < 0) {
-//            while (getAngle() >= degrees) {
-//            }
-//        } else if (degrees > 0) {
-//            while (getAngle() <= degrees) {
-//            }
-//        }
-//        leftFrontDrive.setPower(0);
-//        rightFrontDrive.setPower(0);
-//        leftBackDrive.setPower(0);
-//        rightBackDrive.setPower(0);
-////        resetAngle();
-//    }
-
-//    public void quickpivot_left(){//negative 90 or 90? not sure without having robot needs test
-//        double degreesNeeded = 90 - (int)getAngle();
-//        pivot((int) degreesNeeded, 0.9);
-//    }
-//    public void quickpivot_right(){//negative 90 or 90? not sure without having robot needs test
-//        double degreesNeeded = 90 - (int)getAngle();
-//        pivot((int) -degreesNeeded, 0.9);
-//    }
-//    public void quickpivot_down(){//negative 180 or 180? not sure without having robot needs test
-//        double degreesNeeded = 180 - (int)getAngle();
-//        pivot((int) degreesNeeded, 0.9);
-//    }
-//    public void quickpivot_up(){//negative 90 or 90? not sure without having robot needs test
-//        int degreesNeeded = 90 - (int)getAngle();
-//        pivot(degreesNeeded, 0.9);
-//    }
-
-      public void reverseArmControls(){
-            armIsGoingDown = true;
-        }
+    public void reverseArmControls() {
+        armIsGoingDown = true;
+    }
 
     public void strafe(double distance, double power) {
         int leftfronttarget = leftFrontDrive.getCurrentPosition() + (int) (distance * DRIVE_COUNTS_PER_CENTIMETERS); //offset
@@ -298,7 +186,7 @@ public class RobotMethods {
         double max = 0;
         max = Math.max(max, power);
         if (max > 1.2) {
-            power  /= max;
+            power /= max;
         }
 
         leftFrontDrive.setPower(Math.abs(power) * 0.5);
@@ -321,22 +209,22 @@ public class RobotMethods {
         rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);*/
 
     }
+
     public void strafeRight(double distanceCm, double power) {
         double strafeRightDistance = (Math.abs(distanceCm));
         strafe(strafeRightDistance, power);
     }
 
-    public void strafeLeft(double distanceCm, double power){
+    public void strafeLeft(double distanceCm, double power) {
         double strafeLeftDistance = -(Math.abs(distanceCm));
         strafe(strafeLeftDistance, power);
     }
 
     public void drive(double distance, double power) {
         int leftfronttarget = leftFrontDrive.getCurrentPosition() + (int) (distance * DRIVE_COUNTS_PER_CENTIMETERS);
-        int leftbacktarget = leftBackDrive.getCurrentPosition() +(int) (distance * DRIVE_COUNTS_PER_CENTIMETERS);
+        int leftbacktarget = leftBackDrive.getCurrentPosition() + (int) (distance * DRIVE_COUNTS_PER_CENTIMETERS);
         int rightfronttarget = rightFrontDrive.getCurrentPosition() + (int) (distance * DRIVE_COUNTS_PER_CENTIMETERS);
         int rightbacktarget = rightBackDrive.getCurrentPosition() + (int) (distance * DRIVE_COUNTS_PER_CENTIMETERS);
-
 
 
         leftFrontDrive.setTargetPosition(leftfronttarget);
@@ -367,14 +255,16 @@ public class RobotMethods {
         rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
+
     public void driveForward(double distance, double power) {
-       double driveDistance = Math.abs(distance);
-        drive(driveDistance,power);
+        double driveDistance = Math.abs(distance);
+        drive(driveDistance, power);
 
     }
+
     public void driveBackward(double distance, double power) {
         double driveDistance = -(Math.abs(distance)); //seems redundant but does make sense, fixes user error
-        drive(driveDistance,power);
+        drive(driveDistance, power);
     }
 
 }
