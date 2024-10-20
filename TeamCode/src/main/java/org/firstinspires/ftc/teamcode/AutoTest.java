@@ -3,8 +3,8 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-@Autonomous(name="AutoF4toPark_v1", group = "Concept")
-public class AutoF4ToPark extends LinearOpMode {
+@Autonomous(name="AutoF4ToPark", group = "Concept")
+public class AutoTest extends LinearOpMode {
 
     @Override
     public void runOpMode(){
@@ -18,4 +18,4 @@ public class AutoF4ToPark extends LinearOpMode {
     }
 }
 
-
+// This works!! Copy and paste it to other auto codes.
