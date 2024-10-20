@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 @Autonomous(name="AutoF3F6PushPark1", group = "Concept")
-public class F3F6PushPark1 extends LinearOpMode {
+public class AutoF3F6PushPark1 extends LinearOpMode {
 
     @Override
     public void runOpMode(){

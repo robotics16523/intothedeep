@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 @Autonomous(name="AutoF3F6PushPark2", group = "Concept")
-public class f3F6PushPark2 extends LinearOpMode {
+public class AutoF3F6PushPark2 extends LinearOpMode {
 
     @Override
     public void runOpMode(){
@@ -21,4 +21,3 @@ public class f3F6PushPark2 extends LinearOpMode {
     }
 }
 // This works!! Copy and paste it to other auto codes.
-// What's going on???????? it keeps giving me errors
