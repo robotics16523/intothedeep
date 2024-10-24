@@ -12,8 +12,9 @@ public class AutoF2F6PushPark2 extends LinearOpMode {
         waitForStart();
         if (opModeIsActive()) {
             robot.init(hardwareMap);
-            robot.driveForward(robot.FIELD_TILE/3,0.75);
+            robot.driveForward(robot.FIELD_TILE/5,0.75);
             robot.strafeLeft(robot.FIELD_TILE,0.75);
+            robot.strafeRight(robot.FIELD_TILE/5,0.75);
             robot.driveForward(robot.FIELD_TILE,0.75);
             robot.strafeRight(robot.FIELD_TILE*5,0.75);
             robot.driveBackward(robot.FIELD_TILE,0.75);
