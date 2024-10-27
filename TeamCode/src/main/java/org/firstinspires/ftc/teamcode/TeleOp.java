@@ -60,7 +60,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 // KEEP REV OPEN WHEN PUSHING
-@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="TeleOp_v4", group="Linear OpMode")
+@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="TeleOp_v5", group="Linear OpMode")
 public class TeleOp extends LinearOpMode {
     RobotMethods robot = new RobotMethods();
     private ElapsedTime runtime = new ElapsedTime();
@@ -131,11 +131,22 @@ public class TeleOp extends LinearOpMode {
 //                        180-degree spin: ~60 cm test this once we get the robot
                     }
 
-            if(gamepad1.back){
-                robot.reverseArmControls();
+          //  if(gamepad1.back){
+           //     robot.reverseArmControls();
                 //the base of our armRaise method relies on a boolean that is either negative to go down or positive to go up
                 //this function flips the boolean set in our hardware map and that boolean gets passed to the arm raise, therefore changing the direction of the arm while still using the same button to conserve space
             }
+
+            //basic arm map
+            double armPower = gamepad2.left_stick_y;
+//            robot.arm.setPower(armPower);
+            if (armPower > 0) {
+                robot.arm.setPower(Math.abs(armPower));
+            }
+            if (armPower < 0) {
+                robot.arm.setPower(-Math.abs(armPower));
+            }
+
 
 
             // Send calculated power to wheels
