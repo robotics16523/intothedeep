@@ -3,8 +3,8 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-@Autonomous(name="AutoTEST", group = "Concept")
-public class AutoTest extends LinearOpMode {
+@Autonomous(name="AutoMiddlePark", group = "Concept")
+public class AutoMiddlePark extends LinearOpMode {
 
     @Override
     public void runOpMode(){
@@ -12,10 +12,7 @@ public class AutoTest extends LinearOpMode {
         waitForStart();
         if (opModeIsActive()) {
             robot.init(hardwareMap);
-            robot.driveForward(robot.FIELD_TILE/2,0.75);
-            robot.strafeRight(robot.FIELD_TILE*2,0.75);
+            robot.strafeRight(robot.FIELD_TILE*3,0.75);
         }
     }
 }
-
-// This works!! Copy and paste it to other auto codes.

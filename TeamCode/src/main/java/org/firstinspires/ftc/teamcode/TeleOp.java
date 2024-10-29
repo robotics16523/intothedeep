@@ -60,7 +60,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 // KEEP REV OPEN WHEN PUSHING
-@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="TeleOp_v5", group="Linear OpMode")
+@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="TeleOp_v10", group="Linear OpMode")
 public class TeleOp extends LinearOpMode {
     RobotMethods robot = new RobotMethods();
     private ElapsedTime runtime = new ElapsedTime();
@@ -73,7 +73,7 @@ public class TeleOp extends LinearOpMode {
                 while (opModeIsActive()) {
                     double max;
                     // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
-                    double axial   = gamepad1.left_stick_y;  // Note: pushing stick forward gives POSITIVE value
+                    double axial   = -gamepad1.left_stick_y;  // Note: pushing stick forward gives POSITIVE value
                     double lateral =  gamepad1.left_stick_x;
                     double yaw     =  gamepad1.right_stick_x;
                     // Combine the joystick requests for each axis-motion to determine each wheel's power.
@@ -120,33 +120,22 @@ public class TeleOp extends LinearOpMode {
                         robot.spinLeft(56,.75);
                     }if(gamepad1.dpad_right) {
                         robot.spinRight(56, .75);
-                    } if(gamepad1.dpad_up){
-                        robot.spinLeft(112,.75);
-                    }if(gamepad1.dpad_down){
-                        robot.spinRight(112,.75);
-                        // 30 cm is 45 degrees-ish. Our guess is that 54 is a perfect 90
-                        // No pivot function - just spin
-//                        from chatgpt's math: 45-degree spin: ~15 cm
-//                        90-degree spin: ~30 cm
-//                        180-degree spin: ~60 cm test this once we get the robot
-                    }
+                    } if(gamepad1.dpad_up) {
+                        robot.spinLeft(112, .75);
 
-          //  if(gamepad1.back){
-           //     robot.reverseArmControls();
-                //the base of our armRaise method relies on a boolean that is either negative to go down or positive to go up
-                //this function flips the boolean set in our hardware map and that boolean gets passed to the arm raise, therefore changing the direction of the arm while still using the same button to conserve space
-            }
 
-            //basic arm map
-            double armPower = gamepad2.left_stick_y;
-//            robot.arm.setPower(armPower);
-            if (armPower > 0) {
-                robot.arm.setPower(Math.abs(armPower));
-            }
-            if (armPower < 0) {
-                robot.arm.setPower(-Math.abs(armPower));
-            }
-
+                        //basic arm map
+                        double armPower = gamepad2.left_stick_y;
+           robot.arm.setPower(armPower);
+                        if (armPower > 0) {
+                            robot.arm.setPower(Math.abs(armPower));
+                        }
+                        if (armPower < 0) {
+                            robot.arm.setPower(-Math.abs(armPower));
+                      }
+               //       if (armPower == 0) {
+               //           robot.arm.setPower(0);
+                //   }
 
 
             // Send calculated power to wheels
@@ -157,12 +146,8 @@ public class TeleOp extends LinearOpMode {
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower,    rightFrontPower);
             telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
-            //if(robot.armIsGoingDown){
-                //telemetry.addLine("YOUR ARM IS GOING DOWN, CAUTION NOT TO BREAK ANYTHING!");
-            //} else {
-                //telemetry.addLine("YOUR ARM IS GOING UP, CAUTION NOT TO BREAK ANYTHING!");
-            //}
+
             telemetry.update();
 
         }
-    }}
+    }}}
