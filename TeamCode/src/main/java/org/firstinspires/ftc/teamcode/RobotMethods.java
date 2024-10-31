@@ -44,6 +44,7 @@ public class RobotMethods {
     public DcMotor hangingMotor = null;
     public DcMotor arm = null;
     public Servo tilter = null;
+    public Servo intake = null;
     public final double COUNTS_PER_MOTOR_REV = 537.7;
     public final double DRIVE_WHEEL_DIAMETER_CENTIMETERS = 9.6;
     double strafeTick = (COUNTS_PER_MOTOR_REV / (Math.PI * DRIVE_WHEEL_DIAMETER_CENTIMETERS));
@@ -65,6 +66,7 @@ public class RobotMethods {
         hangingMotor = hardwareMap.get(DcMotor.class, "hangingMotor");
         arm = hardwareMap.get(DcMotor.class,"arm");
         tilter = hardwareMap.get(Servo.class, "tilter"); //also known as "elbow"
+        intake = hardwareMap.get(Servo.class, "intake");//map this to robot config as of 10/31/24
         leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
@@ -74,6 +76,23 @@ public class RobotMethods {
     }
 
 
+    public boolean isIntakeMoving() {
+        double lastPosition = 0;
+        long lastTime = 0;
+        double currentPosition = intake.getPosition();
+        long currentTime = System.currentTimeMillis();
+
+        // Calculate the change in position and time
+        double positionChange = Math.abs(currentPosition - lastPosition);
+        long timeChange = currentTime - lastTime;
+
+        // Update last position and time
+        lastPosition = currentPosition;
+        lastTime = currentTime;
+
+        // Define a threshold for movement (this may need to be tuned)
+        return positionChange > 0.01 && timeChange < 200; // Change threshold as necessary
+    }
     public void spinLeft(double distance, double power) {
         int leftfronttarget = leftFrontDrive.getCurrentPosition() - (int) (distance * DRIVE_COUNTS_PER_CENTIMETERS);
         int leftbacktarget = leftBackDrive.getCurrentPosition() - (int) (distance * DRIVE_COUNTS_PER_CENTIMETERS);

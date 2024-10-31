@@ -60,7 +60,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 // KEEP REV OPEN WHEN PUSHING
-@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="TeleOp_v10", group="Linear OpMode")
+@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="TeleOp_v11", group="Linear OpMode")
 public class TeleOp extends LinearOpMode {
     RobotMethods robot = new RobotMethods();
     private ElapsedTime runtime = new ElapsedTime();
@@ -116,6 +116,20 @@ public class TeleOp extends LinearOpMode {
                     if(gamepad2.right_trigger > 0){
                         robot.retractHangingMotor(.75);
                     }
+                    //intake stop untested
+                    if(gamepad2.left_bumper) {
+                        if(robot.isIntakeMoving()){
+                            robot.intake.close();
+                        }
+                        robot.intake.setPosition(1);
+                    }
+
+                    if(gamepad2.right_bumper){
+                        if(robot.isIntakeMoving()){
+                            robot.intake.close();
+                        }
+                        robot.intake.setPosition(-1);
+                    }
                     if(gamepad1.dpad_left){
                         robot.spinLeft(56,.75);
                     }if(gamepad1.dpad_right) {
@@ -146,7 +160,7 @@ public class TeleOp extends LinearOpMode {
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower,    rightFrontPower);
             telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
-
+            telemetry.addData("Arm position: ", "%4.2f", armPower);
             telemetry.update();
 
         }
