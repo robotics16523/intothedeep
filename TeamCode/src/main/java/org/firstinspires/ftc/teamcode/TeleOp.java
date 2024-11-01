@@ -60,7 +60,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 // KEEP REV OPEN WHEN PUSHING
-@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="TeleOp_v11", group="Linear OpMode")
+@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="TeleOp_v12", group="Linear OpMode")
 public class TeleOp extends LinearOpMode {
     RobotMethods robot = new RobotMethods();
     private ElapsedTime runtime = new ElapsedTime();
@@ -102,55 +102,57 @@ public class TeleOp extends LinearOpMode {
 
                     //my (finn's) idea with this controller map is to make it like a video game
                     //this way the drivers actually will have these controls in their muscle memory, and can drive easier
-                    //if(gamepad2.left_trigger >0.1){
-                    //add code to raise the arm using this model:
-                    //robot.armRaise(gamepad1.left_trigger)
-                    //left trigger returns a float, so we can raise the arm by the amount that trigger is being pressed by
-                    //}
-                    //if(gamepad2.right_trigger >0.1){
-                    //robot.grabberToggle();
-                    //}
-                    if(gamepad2.left_trigger > 0){
-                        robot.extendHangingMotor(.75);
-                    }
-                    if(gamepad2.right_trigger > 0){
-                        robot.retractHangingMotor(.75);
-                    }
                     //intake stop untested
                     if(gamepad2.left_bumper) {
                         if(robot.isIntakeMoving()){
-                            robot.intake.close();
+                            robot.intake.setPosition(0);
                         }
                         robot.intake.setPosition(1);
                     }
-
                     if(gamepad2.right_bumper){
                         if(robot.isIntakeMoving()){
-                            robot.intake.close();
+                            robot.intake.setPosition(0);
                         }
                         robot.intake.setPosition(-1);
                     }
+                    if(gamepad2.y){
+                        robot.extendHangingMotor(.75);
+                    }
+                    if(gamepad2.a){
+                        robot.retractHangingMotor(.75);
+                    }
+                    if(gamepad2.x){
+                        robot.tilter.setPosition(robot.TILTER_DOWN);
+                    }
+                    if(gamepad2.b){
+                        robot.tilter.setPosition(robot.TILTER_UP);
+                    }
+                    if(gamepad2.guide){
+                        robot.tilter.setPosition(robot.NEUTRAL);
+                    }
                     if(gamepad1.dpad_left){
                         robot.spinLeft(56,.75);
-                    }if(gamepad1.dpad_right) {
+                    }
+                    if(gamepad1.dpad_right) {
                         robot.spinRight(56, .75);
-                    } if(gamepad1.dpad_up) {
+                    }
+                    if(gamepad1.dpad_up) {
                         robot.spinLeft(112, .75);
+                    }
+                    double armPower = gamepad2.left_stick_y;
+                    robot.arm.setPower(armPower);
+                    if (armPower > 0) {
+                        robot.arm.setPower(Math.abs(armPower));
+                    }
+                    if (armPower < 0) {
+                        robot.arm.setPower(-Math.abs(armPower));
+                    }
 
+                    double wristController = gamepad2.left_trigger;
 
-                        //basic arm map
-                        double armPower = gamepad2.left_stick_y;
-           robot.arm.setPower(armPower);
-                        if (armPower > 0) {
-                            robot.arm.setPower(Math.abs(armPower));
-                        }
-                        if (armPower < 0) {
-                            robot.arm.setPower(-Math.abs(armPower));
-                      }
-               //       if (armPower == 0) {
-               //           robot.arm.setPower(0);
-                //   }
-
+                    while(wristController > 0) {
+                        robot.wrist.setPosition(wristController);
+                    }
 
             // Send calculated power to wheels
             robot.leftFrontDrive.setPower(leftFrontPower);
@@ -164,4 +166,5 @@ public class TeleOp extends LinearOpMode {
             telemetry.update();
 
         }
-    }}}
+    }
+}

@@ -33,7 +33,6 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 // Declare all opmode members here
 public class RobotMethods {
@@ -45,6 +44,7 @@ public class RobotMethods {
     public DcMotor arm = null;
     public Servo tilter = null;
     public Servo intake = null;
+    public Servo wrist = null;
     public final double COUNTS_PER_MOTOR_REV = 537.7;
     public final double DRIVE_WHEEL_DIAMETER_CENTIMETERS = 9.6;
     double strafeTick = (COUNTS_PER_MOTOR_REV / (Math.PI * DRIVE_WHEEL_DIAMETER_CENTIMETERS));
@@ -57,6 +57,9 @@ public class RobotMethods {
     public final double WHEEL_BASE_WIDTH_CM = 2 * DRIVE_WHEEL_DIAMETER_MM / 10; // Convert from mm to cm
     public final double COUNTS_PER_DEGREE = COUNTS_PER_CM * Math.PI * WHEEL_BASE_WIDTH_CM / 360.0;
     public boolean armIsGoingDown = false;
+    public final double TILTER_UP = Servo.MAX_POSITION;
+    public final double TILTER_DOWN = Servo.MIN_POSITION; //define these later
+    public final double NEUTRAL = 0;
 
     public void init(HardwareMap hardwareMap) {
         leftFrontDrive = hardwareMap.get(DcMotor.class, "left_front_drive");
@@ -67,6 +70,7 @@ public class RobotMethods {
         arm = hardwareMap.get(DcMotor.class,"arm");
         tilter = hardwareMap.get(Servo.class, "tilter"); //also known as "elbow"
         intake = hardwareMap.get(Servo.class, "intake");//map this to robot config as of 10/31/24
+        wrist = hardwareMap.get(Servo.class,"wrist");
         leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
