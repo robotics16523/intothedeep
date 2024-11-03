@@ -30,6 +30,8 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /*
@@ -60,7 +62,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 // KEEP REV OPEN WHEN PUSHING
-@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="TeleOp_v12", group="Linear OpMode")
+@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="TeleOp_v19", group="Linear OpMode")
 public class TeleOp extends LinearOpMode {
     RobotMethods robot = new RobotMethods();
     private ElapsedTime runtime = new ElapsedTime();
@@ -103,17 +105,21 @@ public class TeleOp extends LinearOpMode {
                     //my (finn's) idea with this controller map is to make it like a video game
                     //this way the drivers actually will have these controls in their muscle memory, and can drive easier
                     //intake stop untested
-                    if(gamepad2.left_bumper) {
-                        if(robot.isIntakeMoving()){
-                            robot.intake.setPosition(0);
-                        }
-                        robot.intake.setPosition(1);
+                    if(gamepad2.left_trigger > 0)  {
+                        robot.intake.setDirection(DcMotorSimple.Direction.REVERSE);
+                        robot.intake.setPower(gamepad2.left_trigger);
+
                     }
-                    if(gamepad2.right_bumper){
-                        if(robot.isIntakeMoving()){
-                            robot.intake.setPosition(0);
-                        }
-                        robot.intake.setPosition(-1);
+                    else {
+                        robot.intake.setPower(0);
+                    }
+                    if(gamepad2.right_trigger > 0){
+                        robot.intake.setDirection(DcMotorSimple.Direction.FORWARD);
+                        robot.intake.setPower(gamepad2.right_trigger);
+
+                    }
+                    else {
+                        robot.intake.setPower(0);
                     }
                     if(gamepad2.y){
                         robot.extendHangingMotor(.75);
@@ -148,10 +154,15 @@ public class TeleOp extends LinearOpMode {
                         robot.arm.setPower(-Math.abs(armPower));
                     }
 
-                    double wristController = gamepad2.left_trigger;
-
-                    while(wristController > 0) {
-                        robot.wrist.setPosition(wristController);
+                    boolean wristForwardController = gamepad2.right_bumper;
+                    if(wristForwardController) {
+                        robot.wrist.setDirection(Servo.Direction.FORWARD);
+                        robot.wrist.setPosition(.5);
+                    }
+                    boolean wristBackwardController = gamepad2.left_bumper;
+                    if(wristBackwardController) {
+                      robot.wrist.setDirection(Servo.Direction.REVERSE);
+                      robot.wrist.setPosition(0);
                     }
 
             // Send calculated power to wheels

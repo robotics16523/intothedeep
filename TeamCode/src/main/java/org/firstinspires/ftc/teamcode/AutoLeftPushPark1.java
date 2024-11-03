@@ -18,3 +18,4 @@ public class AutoLeftPushPark1 extends LinearOpMode {
     }
 }}
 // This works!! Copy and paste it to other auto codes.
+// cleared for comp

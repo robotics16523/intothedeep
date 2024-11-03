@@ -31,6 +31,7 @@
 //CHARGE CONTROL HUBS
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -43,7 +44,7 @@ public class RobotMethods {
     public DcMotor hangingMotor = null;
     public DcMotor arm = null;
     public Servo tilter = null;
-    public Servo intake = null;
+    public CRServo intake = null;
     public Servo wrist = null;
     public final double COUNTS_PER_MOTOR_REV = 537.7;
     public final double DRIVE_WHEEL_DIAMETER_CENTIMETERS = 9.6;
@@ -57,8 +58,8 @@ public class RobotMethods {
     public final double WHEEL_BASE_WIDTH_CM = 2 * DRIVE_WHEEL_DIAMETER_MM / 10; // Convert from mm to cm
     public final double COUNTS_PER_DEGREE = COUNTS_PER_CM * Math.PI * WHEEL_BASE_WIDTH_CM / 360.0;
     public boolean armIsGoingDown = false;
-    public final double TILTER_UP = Servo.MAX_POSITION;
-    public final double TILTER_DOWN = Servo.MIN_POSITION; //define these later
+    public final double TILTER_UP = .35;
+    public final double TILTER_DOWN =Servo.MIN_POSITION; //define these later
     public final double NEUTRAL = 0;
 
     public void init(HardwareMap hardwareMap) {
@@ -69,7 +70,7 @@ public class RobotMethods {
         hangingMotor = hardwareMap.get(DcMotor.class, "hangingMotor");
         arm = hardwareMap.get(DcMotor.class,"arm");
         tilter = hardwareMap.get(Servo.class, "tilter"); //also known as "elbow"
-        intake = hardwareMap.get(Servo.class, "intake");//map this to robot config as of 10/31/24
+        intake = hardwareMap.get(CRServo.class, "intake");//map this to robot config as of 10/31/24
         wrist = hardwareMap.get(Servo.class,"wrist");
         leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
@@ -80,23 +81,23 @@ public class RobotMethods {
     }
 
 
-    public boolean isIntakeMoving() {
-        double lastPosition = 0;
-        long lastTime = 0;
-        double currentPosition = intake.getPosition();
-        long currentTime = System.currentTimeMillis();
+//    public boolean isIntakeMoving() {
+//        double lastPosition = 0;
+//        long lastTime = 0;
+//        double currentPosition = intake.getPosition();
+//        long currentTime = System.currentTimeMillis();
+//
+//        // Calculate the change in position and time
+//        double positionChange = Math.abs(currentPosition - lastPosition);
+//        long timeChange = currentTime - lastTime;
 
-        // Calculate the change in position and time
-        double positionChange = Math.abs(currentPosition - lastPosition);
-        long timeChange = currentTime - lastTime;
-
-        // Update last position and time
-        lastPosition = currentPosition;
-        lastTime = currentTime;
-
-        // Define a threshold for movement (this may need to be tuned)
-        return positionChange > 0.01 && timeChange < 200; // Change threshold as necessary
-    }
+//        // Update last position and time
+//        lastPosition = currentPosition;
+//        lastTime = currentTime;
+//
+//        // Define a threshold for movement (this may need to be tuned)
+//        return positionChange > 0.01 && timeChange < 200; // Change threshold as necessary
+//    }
     public void spinLeft(double distance, double power) {
         int leftfronttarget = leftFrontDrive.getCurrentPosition() - (int) (distance * DRIVE_COUNTS_PER_CENTIMETERS);
         int leftbacktarget = leftBackDrive.getCurrentPosition() - (int) (distance * DRIVE_COUNTS_PER_CENTIMETERS);

@@ -1,10 +1,11 @@
+
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-@Autonomous(name="AutoRightPark", group = "Concept")
-public class AutoRightPark extends LinearOpMode {
+@Autonomous(name="AutoMiddlePark2", group = "Concept")
+public class AutoMiddlePark2 extends LinearOpMode {
 
     @Override
     public void runOpMode(){
@@ -16,3 +17,4 @@ public class AutoRightPark extends LinearOpMode {
         }
     }
 }
+// cleared for comp

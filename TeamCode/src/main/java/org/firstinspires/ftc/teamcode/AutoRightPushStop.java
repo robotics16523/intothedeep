@@ -3,8 +3,8 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-@Autonomous(name="AutoLeftPark", group = "Concept")
-public class AutoLeftPark extends LinearOpMode {
+@Autonomous(name="AutoRightPushStop", group = "Concept")
+public class AutoRightPushStop extends LinearOpMode {
 
     @Override
     public void runOpMode(){
@@ -12,7 +12,11 @@ public class AutoLeftPark extends LinearOpMode {
         waitForStart();
         if (opModeIsActive()) {
             robot.init(hardwareMap);
-           robot.strafeRight(robot.FIELD_TILE*4,0.75);
+            robot.driveForward(robot.FIELD_TILE/5,0.75);
+            robot.strafeLeft(robot.FIELD_TILE*3,0.75);
+            robot.strafeRight(robot.FIELD_TILE/8,0.75);
+            robot.driveForward(robot.FIELD_TILE/8,0.75);
         }
     }
 }
+// cleared for comp

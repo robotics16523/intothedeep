@@ -13,7 +13,7 @@ public class AutoRightPushPark2 extends LinearOpMode {
         if (opModeIsActive()) {
             robot.init(hardwareMap);
             robot.driveForward(robot.FIELD_TILE/5,0.75);
-            robot.strafeLeft(robot.FIELD_TILE,0.75);
+            robot.strafeLeft(robot.FIELD_TILE*4,0.75);
             robot.driveForward(robot.FIELD_TILE,0.75);
             robot.strafeRight(robot.FIELD_TILE*5,0.75);
             robot.driveBackward(robot.FIELD_TILE,0.75);

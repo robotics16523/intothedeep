@@ -22,4 +22,4 @@ public class AutoLeftPushPark2 extends LinearOpMode {
         }
     }
 }
-// 2 is a different path to get to same place - ask maitreyi
+// cleared for comp

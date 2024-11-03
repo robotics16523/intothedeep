@@ -18,5 +18,4 @@ public class AutoMiddlePushPark1 extends LinearOpMode {
         }
     }
 }
-// This works!! Copy and paste it to other auto codes.
-//A is simplest - ask maitreyi if you have questions
+// cleared for comp
