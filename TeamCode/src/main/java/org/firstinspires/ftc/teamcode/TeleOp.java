@@ -62,7 +62,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 // KEEP REV OPEN WHEN PUSHING
-@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="TeleOp_v20", group="Linear OpMode")
+@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="TeleOp_v19", group="Linear OpMode")
 public class TeleOp extends LinearOpMode {
     RobotMethods robot = new RobotMethods();
     private ElapsedTime runtime = new ElapsedTime();
@@ -145,7 +145,7 @@ public class TeleOp extends LinearOpMode {
                     if(gamepad1.dpad_up) {
                         robot.spinLeft(112, .75);
                     }
-                    double armPower = -gamepad2.left_stick_y;
+                    double armPower = gamepad2.left_stick_y;
                     robot.arm.setPower(armPower);
                     if (armPower > 0) {
                         robot.arm.setPower(Math.abs(armPower));

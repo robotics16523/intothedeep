@@ -58,7 +58,7 @@ public class RobotMethods {
     public final double WHEEL_BASE_WIDTH_CM = 2 * DRIVE_WHEEL_DIAMETER_MM / 10; // Convert from mm to cm
     public final double COUNTS_PER_DEGREE = COUNTS_PER_CM * Math.PI * WHEEL_BASE_WIDTH_CM / 360.0;
     public boolean armIsGoingDown = false;
-    public final double TILTER_UP = .345;
+    public final double TILTER_UP = .35;
     public final double TILTER_DOWN =Servo.MIN_POSITION; //define these later
     public final double NEUTRAL = 0;
 
