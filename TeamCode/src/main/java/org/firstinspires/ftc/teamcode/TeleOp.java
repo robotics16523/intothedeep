@@ -62,7 +62,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 // KEEP REV OPEN WHEN PUSHING
-@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="TeleOp_v19", group="Linear OpMode")
+@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="TeleOp_v24", group="Linear OpMode")
 public class TeleOp extends LinearOpMode {
     RobotMethods robot = new RobotMethods();
     private ElapsedTime runtime = new ElapsedTime();
@@ -133,9 +133,9 @@ public class TeleOp extends LinearOpMode {
                     if(gamepad2.b){
                         robot.tilter.setPosition(robot.TILTER_UP);
                     }
-                    if(gamepad2.guide){
-                        robot.tilter.setPosition(robot.NEUTRAL);
-                    }
+                   // if(gamepad2.guide){
+                   //     robot.tilter.setPosition(robot.NEUTRAL);
+                   // }
                     if(gamepad1.dpad_left){
                         robot.spinLeft(56,.75);
                     }
@@ -145,8 +145,15 @@ public class TeleOp extends LinearOpMode {
                     if(gamepad1.dpad_up) {
                         robot.spinLeft(112, .75);
                     }
-                    double armPower = gamepad2.left_stick_y;
+                    double armPower = -gamepad2.left_stick_y;
                     robot.arm.setPower(armPower);
+
+                    //if arm is below limit whatever the limit is
+                    //if arm is above limit then set to limit
+                    // if (armPower < x ){
+                    // robot.arm.setPower(x);
+                    // if (armPower > y ){
+                    // robot.arm.setPower(y);
                     if (armPower > 0) {
                         robot.arm.setPower(Math.abs(armPower));
                     }
@@ -165,6 +172,7 @@ public class TeleOp extends LinearOpMode {
                       robot.wrist.setPosition(0);
                     }
 
+
             // Send calculated power to wheels
             robot.leftFrontDrive.setPower(leftFrontPower);
             robot.rightFrontDrive.setPower(rightFrontPower);
@@ -173,7 +181,9 @@ public class TeleOp extends LinearOpMode {
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower,    rightFrontPower);
             telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
-            telemetry.addData("Arm position: ", "%4.2f", armPower);
+            telemetry.addData("Arm power: ", "%4.2f", armPower);
+            telemetry.addData("Arm position:",robot.arm.getCurrentPosition());
+            telemetry.addData("Tilter position:",robot.tilter.getPosition());
             telemetry.update();
 
         }

@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-@Autonomous(name="AutoLeftPushPark1", group = "Concept")
+@Autonomous(name="AutoLeftPushStop", group = "Concept")
 public class AutoLeftPushStop extends LinearOpMode {
 
     @Override
