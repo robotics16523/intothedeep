@@ -77,7 +77,7 @@ public class RobotMethods {
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
         hangingMotor.setDirection(DcMotor.Direction.FORWARD);
-        arm.setDirection(DcMotor.Direction.FORWARD);
+        arm.setDirection(DcMotor.Direction.REVERSE);
     }
 
 
