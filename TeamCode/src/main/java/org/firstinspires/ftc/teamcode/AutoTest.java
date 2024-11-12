@@ -12,10 +12,12 @@ public class AutoTest extends LinearOpMode {
         waitForStart();
         if (opModeIsActive()) {
             robot.init(hardwareMap);
-            robot.driveForward(robot.FIELD_TILE/2,0.75);
-            robot.strafeRight(robot.FIELD_TILE*2,0.75);
+        robot.driveForward(robot.FIELD_TILE,0.75);
+         //   robot.raiseArm(0.5,3000);
+      //  robot.lowerArm(0.5,3000);
+
         }
     }
 }
 
-// This works!! Copy and paste it to other auto codes.
+// This DOES NOT WORK

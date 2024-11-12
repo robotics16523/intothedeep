@@ -114,6 +114,16 @@ public class TeleOp extends LinearOpMode {
                         robot.intake.setPower(0);
                     }
 
+                    /*if(gamepad2.left_trigger > 0){
+                        robot.grabber.setDirection(DcMotorSimple.Direction.REVERSE);
+                        robot.grabber.setPower(gamepad2.left_trigger);
+                    }
+                    if(gamepad2.right_trigger>0){
+                        robot.grabber.setDirection(DcMotorSimple.Direction.FORWARD);
+                        robot.grabber.setPower(gamepad2.right_trigger);
+                    }
+                    new code for felix's grabber design(more similar to the tilter)*/
+
                     if(gamepad2.y){
                         robot.extendHangingMotor(.75);
                     }
@@ -126,9 +136,6 @@ public class TeleOp extends LinearOpMode {
                     if(gamepad2.b){
                         robot.tilter.setPosition(robot.TILTER_UP);
                     }
-                   // if(gamepad2.guide){
-                   //     robot.tilter.setPosition(robot.NEUTRAL);
-                   // }
                     if(gamepad1.dpad_left){
                         robot.spinLeft(56,.75);
                     }
@@ -140,13 +147,6 @@ public class TeleOp extends LinearOpMode {
                     }
                     double armPower = -gamepad2.left_stick_y;
                     robot.arm.setPower(armPower);
-
-                    //if arm is below limit whatever the limit is
-                    //if arm is above limit then set to limit
-                    // if (armPower < x ){
-                    // robot.arm.setPower(x);
-                    // if (armPower > y ){
-                    // robot.arm.setPower(y);
                     if (armPower > 0) {
                         robot.arm.setPower(Math.abs(armPower));
                     }

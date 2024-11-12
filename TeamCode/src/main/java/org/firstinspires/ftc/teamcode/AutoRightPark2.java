@@ -13,6 +13,7 @@ public class AutoRightPark2 extends LinearOpMode {
         if (opModeIsActive()) {
             robot.init(hardwareMap);
             robot.strafeRight(robot.FIELD_TILE*1,0.75);
+
         }
     }
 }

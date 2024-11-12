@@ -35,7 +35,8 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-// Declare all opmode members here
+import com.qualcomm.robotcore.util.ElapsedTime;
+
 public class RobotMethods {
     public DcMotor leftFrontDrive = null;
     public DcMotor leftBackDrive = null;
@@ -60,7 +61,6 @@ public class RobotMethods {
     public boolean armIsGoingDown = false;
     public final double TILTER_UP = .62;
     public final double TILTER_DOWN =.25;
-   // public final double NEUTRAL = 0;
 
     public void init(HardwareMap hardwareMap) {
         leftFrontDrive = hardwareMap.get(DcMotor.class, "left_front_drive");
@@ -70,7 +70,7 @@ public class RobotMethods {
         hangingMotor = hardwareMap.get(DcMotor.class, "hangingMotor");
         arm = hardwareMap.get(DcMotor.class,"arm");
         tilter = hardwareMap.get(Servo.class, "tilter"); //also known as "elbow"
-        intake = hardwareMap.get(CRServo.class, "intake");//map this to robot config as of 10/31/24
+        intake = hardwareMap.get(CRServo.class, "intake");
         wrist = hardwareMap.get(Servo.class,"wrist");
         leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
@@ -159,9 +159,6 @@ public class RobotMethods {
     }
 
 
-    public void reverseArmControls() {
-        armIsGoingDown = true;
-    }
 
     public void strafe(double distance, double power) {
         int leftfronttarget = leftFrontDrive.getCurrentPosition() + (int) (distance * DRIVE_COUNTS_PER_CENTIMETERS); //offset
@@ -216,6 +213,25 @@ public class RobotMethods {
     public void strafeLeft(double distanceCm, double power) {
         double strafeLeftDistance = -(Math.abs(distanceCm));
         strafe(strafeLeftDistance, power);
+    }
+    private ElapsedTime timer = new ElapsedTime();
+
+    public void raiseArm(double power, double duration) {
+        timer.reset();
+        arm.setPower(Math.abs(power));
+        while (timer.seconds() < duration) {
+            // wait for the specified duration
+        }
+        arm.setPower(0); // Stop the arm after the duration has passed
+    }
+
+    public void lowerArm(double power, double duration) {
+        timer.reset();
+        arm.setPower(-Math.abs(power));
+        while (timer.seconds() < duration) {
+            // wait for the specified duration
+        }
+        arm.setPower(0); // Stop the arm after the duration has passed
     }
 
     public void drive(double distance, double power) {
