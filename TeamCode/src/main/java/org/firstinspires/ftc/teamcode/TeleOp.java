@@ -102,25 +102,18 @@ public class TeleOp extends LinearOpMode {
                     robot.rightFrontDrive.setPower(rightFrontPower*0.65);
                     robot.rightBackDrive.setPower(rightBackPower*0.65);
 
-                    //my (finn's) idea with this controller map is to make it like a video game
-                    //this way the drivers actually will have these controls in their muscle memory, and can drive easier
-                    //intake stop untested
                     if(gamepad2.left_trigger > 0)  {
                         robot.intake.setDirection(DcMotorSimple.Direction.REVERSE);
                         robot.intake.setPower(gamepad2.left_trigger);
-
                     }
-                    else {
-                        robot.intake.setPower(0);
-                    }
-                    if(gamepad2.right_trigger > 0){
+                    else if (gamepad2.right_trigger > 0) {
                         robot.intake.setDirection(DcMotorSimple.Direction.FORWARD);
                         robot.intake.setPower(gamepad2.right_trigger);
-
                     }
                     else {
                         robot.intake.setPower(0);
                     }
+
                     if(gamepad2.y){
                         robot.extendHangingMotor(.75);
                     }
@@ -161,16 +154,16 @@ public class TeleOp extends LinearOpMode {
                         robot.arm.setPower(-Math.abs(armPower));
                     }
 
-                    boolean wristForwardController = gamepad2.right_bumper;
-                    if(wristForwardController) {
-                        robot.wrist.setDirection(Servo.Direction.FORWARD);
-                        robot.wrist.setPosition(.5);
-                    }
-                    boolean wristBackwardController = gamepad2.left_bumper;
-                    if(wristBackwardController) {
-                      robot.wrist.setDirection(Servo.Direction.REVERSE);
-                      robot.wrist.setPosition(0);
-                    }
+//                    boolean wristForwardController = gamepad2.right_bumper;
+//                    if(wristForwardController) {
+//                        robot.wrist.setDirection(Servo.Direction.FORWARD);
+//                        robot.wrist.setPosition(.5);
+//                    }
+//                    boolean wristBackwardController = gamepad2.left_bumper;
+//                    if(wristBackwardController) {
+//                      robot.wrist.setDirection(Servo.Direction.REVERSE);
+//                      robot.wrist.setPosition(0);
+//                    }
 
 
             // Send calculated power to wheels

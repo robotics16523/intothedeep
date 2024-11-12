@@ -80,24 +80,6 @@ public class RobotMethods {
         arm.setDirection(DcMotor.Direction.REVERSE);
     }
 
-
-//    public boolean isIntakeMoving() {
-//        double lastPosition = 0;
-//        long lastTime = 0;
-//        double currentPosition = intake.getPosition();
-//        long currentTime = System.currentTimeMillis();
-//
-//        // Calculate the change in position and time
-//        double positionChange = Math.abs(currentPosition - lastPosition);
-//        long timeChange = currentTime - lastTime;
-
-//        // Update last position and time
-//        lastPosition = currentPosition;
-//        lastTime = currentTime;
-//
-//        // Define a threshold for movement (this may need to be tuned)
-//        return positionChange > 0.01 && timeChange < 200; // Change threshold as necessary
-//    }
     public void spinLeft(double distance, double power) {
         int leftfronttarget = leftFrontDrive.getCurrentPosition() - (int) (distance * DRIVE_COUNTS_PER_CENTIMETERS);
         int leftbacktarget = leftBackDrive.getCurrentPosition() - (int) (distance * DRIVE_COUNTS_PER_CENTIMETERS);
