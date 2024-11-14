@@ -33,6 +33,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -209,6 +210,16 @@ public class RobotMethods {
         double strafeRightDistance = (Math.abs(distanceCm));
         strafe(strafeRightDistance, power);
     }
+    public void intake (String direction, double power, double duration){
+       timer.reset();
+        if(direction.toLowerCase()=="reverse"){
+            intake.setDirection(DcMotorSimple.Direction.REVERSE);
+            intake.setPower(power);
+        }else if(direction.toLowerCase()=="forward"){
+            intake.setDirection(DcMotorSimple.Direction.FORWARD);
+            intake.setPower(power);
+        }
+    }
 
     public void strafeLeft(double distanceCm, double power) {
         double strafeLeftDistance = -(Math.abs(distanceCm));
@@ -216,13 +227,17 @@ public class RobotMethods {
     }
     private ElapsedTime timer = new ElapsedTime();
 
+    public void timeOut(double duration){//does nothing for specified duration
+        timer.reset();
+        while(timer.seconds()<duration){}
+    }
     public void raiseArm(double power, double duration) {
         timer.reset();
         arm.setPower(Math.abs(power));
         while (timer.seconds() < duration) {
             // wait for the specified duration
         }
-        arm.setPower(0); // Stop the arm after the duration has passed
+        arm.setPower(0.1); // Stop the arm after the duration has passed
     }
 
     public void lowerArm(double power, double duration) {
@@ -280,5 +295,11 @@ public class RobotMethods {
         double driveDistance = -(Math.abs(distance)); //seems redundant but does make sense, fixes user error
         drive(driveDistance, power);
     }
-
-}
+    public void tilter(double position, double duration) {
+        tilter.setPosition(position); // Set the servo position
+        ElapsedTime timer = new ElapsedTime();
+        timer.reset();
+        while (timer.seconds() < duration) {
+            // Wait for the specified duration for the servo to reach the position
+        }
+    }}
