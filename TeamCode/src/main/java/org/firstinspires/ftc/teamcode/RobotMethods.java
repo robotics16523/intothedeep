@@ -46,7 +46,8 @@ public class RobotMethods {
     public DcMotor hangingMotor = null;
     public DcMotor arm = null;
     public Servo tilter = null;
-    public CRServo intake = null;
+   // public CRServo intake = null;
+    public Servo grabber = null;
     public Servo wrist = null;
     public final double COUNTS_PER_MOTOR_REV = 537.7;
     public final double DRIVE_WHEEL_DIAMETER_CENTIMETERS = 9.6;
@@ -60,8 +61,11 @@ public class RobotMethods {
     public final double WHEEL_BASE_WIDTH_CM = 2 * DRIVE_WHEEL_DIAMETER_MM / 10; // Convert from mm to cm
     public final double COUNTS_PER_DEGREE = COUNTS_PER_CM * Math.PI * WHEEL_BASE_WIDTH_CM / 360.0;
     public boolean armIsGoingDown = false;
-    public final double TILTER_UP = .62;
-    public final double TILTER_DOWN =.25;
+    public final double TILTER_UP = .25;
+    public final double TILTER_DOWN =.63;
+    public final double TILTER_MIDDLE =.36;
+    public final double GRABBER_OPEN = .5;
+    public final double GRABBER_CLOSED = 0.64;
 
     public void init(HardwareMap hardwareMap) {
         leftFrontDrive = hardwareMap.get(DcMotor.class, "left_front_drive");
@@ -71,8 +75,9 @@ public class RobotMethods {
         hangingMotor = hardwareMap.get(DcMotor.class, "hangingMotor");
         arm = hardwareMap.get(DcMotor.class,"arm");
         tilter = hardwareMap.get(Servo.class, "tilter"); //also known as "elbow"
-        intake = hardwareMap.get(CRServo.class, "intake");
+        //intake = hardwareMap.get(CRServo.class, "intake");
         wrist = hardwareMap.get(Servo.class,"wrist");
+        grabber = hardwareMap.get(Servo.class,"grabber");
         leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
@@ -210,16 +215,6 @@ public class RobotMethods {
         double strafeRightDistance = (Math.abs(distanceCm));
         strafe(strafeRightDistance, power);
     }
-    public void intake (String direction, double power, double duration){
-       timer.reset();
-        if(direction.toLowerCase()=="reverse"){
-            intake.setDirection(DcMotorSimple.Direction.REVERSE);
-            intake.setPower(power);
-        }else if(direction.toLowerCase()=="forward"){
-            intake.setDirection(DcMotorSimple.Direction.FORWARD);
-            intake.setPower(power);
-        }
-    }
 
     public void strafeLeft(double distanceCm, double power) {
         double strafeLeftDistance = -(Math.abs(distanceCm));
@@ -302,4 +297,9 @@ public class RobotMethods {
         while (timer.seconds() < duration) {
             // Wait for the specified duration for the servo to reach the position
         }
-    }}
+    }
+    public void grabber(double position){
+        grabber.setPosition(position);
+    }
+
+}

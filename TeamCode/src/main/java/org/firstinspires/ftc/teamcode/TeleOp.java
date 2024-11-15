@@ -62,7 +62,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 // KEEP REV OPEN WHEN PUSHING
-@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="TeleOp_v24", group="Linear OpMode")
+@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="TeleOp_v29", group="Linear OpMode")
 public class TeleOp extends LinearOpMode {
     RobotMethods robot = new RobotMethods();
     private ElapsedTime runtime = new ElapsedTime();
@@ -102,27 +102,24 @@ public class TeleOp extends LinearOpMode {
                     robot.rightFrontDrive.setPower(rightFrontPower*0.65);
                     robot.rightBackDrive.setPower(rightBackPower*0.65);
 
-                    if(gamepad2.left_trigger > 0)  {
-                        robot.intake.setDirection(DcMotorSimple.Direction.REVERSE);
-                        robot.intake.setPower(gamepad2.left_trigger);
+                    if(gamepad2.left_bumper){
+//                        robot.grabber.setDirection(Servo.Direction.REVERSE);
+                        robot.grabber.setPosition(robot.GRABBER_OPEN);
                     }
-                    else if (gamepad2.right_trigger > 0) {
-                        robot.intake.setDirection(DcMotorSimple.Direction.FORWARD);
-                        robot.intake.setPower(gamepad2.right_trigger);
+                    else if(gamepad2.right_bumper){
+//                        robot.grabber.setDirection(Servo.Direction.FORWARD);
+                        robot.grabber.setPosition(robot.GRABBER_CLOSED);
                     }
-                    else {
-                        robot.intake.setPower(0);
-                    }
+//                    if(gamepad2.left_trigger > 0){
+//                        robot.grabber.setPosition(gamepad2.left_trigger);
+//                    }
 
-                    /*if(gamepad2.left_trigger > 0){
-                        robot.grabber.setDirection(DcMotorSimple.Direction.REVERSE);
-                        robot.grabber.setPower(gamepad2.left_trigger);
+                    if (gamepad2.dpad_up){
+                        robot.grabber.setPosition(.5);
                     }
-                    if(gamepad2.right_trigger>0){
-                        robot.grabber.setDirection(DcMotorSimple.Direction.FORWARD);
-                        robot.grabber.setPower(gamepad2.right_trigger);
+                    if (gamepad2.dpad_down){
+                        robot.grabber.setPosition(robot.GRABBER_CLOSED);
                     }
-                    new code for felix's grabber design(more similar to the tilter)*/
 
                     if(gamepad2.y){
                         robot.extendHangingMotor(.75);
@@ -135,6 +132,9 @@ public class TeleOp extends LinearOpMode {
                     }
                     if(gamepad2.b){
                         robot.tilter.setPosition(robot.TILTER_UP);
+                    }
+                    if (gamepad2.dpad_left){
+                        robot.tilter.setPosition(robot.TILTER_MIDDLE);
                     }
                     if(gamepad1.dpad_left){
                         robot.spinLeft(56,.75);
@@ -150,8 +150,11 @@ public class TeleOp extends LinearOpMode {
                     if (armPower > 0) {
                         robot.arm.setPower(Math.abs(armPower));
                     }
-                    if (armPower < 0) {
+                   else if (armPower < 0) {
                         robot.arm.setPower(-Math.abs(armPower));
+                    }
+                   else {
+                       robot.arm.setPower(0);
                     }
 
 //                    boolean wristForwardController = gamepad2.right_bumper;
@@ -177,6 +180,7 @@ public class TeleOp extends LinearOpMode {
             telemetry.addData("Arm power: ", "%4.2f", armPower);
             telemetry.addData("Arm position:",robot.arm.getCurrentPosition());
             telemetry.addData("Tilter position:",robot.tilter.getPosition());
+           telemetry.addData("Grabber position",robot.grabber.getPosition());
             telemetry.update();
 
         }
