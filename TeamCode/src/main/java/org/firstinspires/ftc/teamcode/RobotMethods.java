@@ -232,7 +232,8 @@ public class RobotMethods {
         while (timer.seconds() < duration) {
             // wait for the specified duration
         }
-        arm.setPower(0.1); // Stop the arm after the duration has passed
+      //  arm.setPower(0.05); // Stop the arm after the duration has passed
+
     }
 
     public void lowerArm(double power, double duration) {
