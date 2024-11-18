@@ -17,13 +17,14 @@ public class AutoArmTest extends LinearOpMode {
        robot.strafeRight(58,0.65);
        robot.spinLeft(27,0.75);
             robot.driveForward(45,0.5);
-          robot.raiseArm(0.75,2.4);
+          robot.raiseArm(0.75,2.2);
+          // timeout was here
           robot.tilter(robot.TILTER_MIDDLE,0.75);
             robot.grabber(robot.GRABBER_OPEN);
           robot.timeOut(.5);
           robot.tilter(robot.TILTER_UP,0.75);
           robot.driveBackward(20,0.75);
-          robot.lowerArm(0.6,2.6);
+          robot.lowerArm(0.75,2.2);
           robot.spinRight(74,0.5);
           robot.driveForward(14,0.5);
           robot.tilter(robot.TILTER_DOWN,0.75);
@@ -32,13 +33,13 @@ public class AutoArmTest extends LinearOpMode {
           robot.tilter(robot.TILTER_UP,0.75);
           robot.spinLeft(78,0.75);
           robot.driveForward(28,0.75);
-          robot.raiseArm(0.75,2.4);
+          robot.raiseArm(0.75,2.2);
           robot.tilter(robot.TILTER_MIDDLE,0.75);
           robot.grabber(robot.GRABBER_OPEN);
           robot.timeOut(.5);
           robot.tilter(robot.TILTER_UP,0.75);
           robot.driveBackward(20,0.5);
-          robot.lowerArm(0.75,2.4);
+          robot.lowerArm(0.75,2.2);
 //          robot.spinLeft(60,0.75);
 //          robot.lowerArm(0.5,3.6);
 //          robot.spinRight(80,0.75);

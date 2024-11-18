@@ -74,7 +74,7 @@ public class RobotMethods {
         rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
         hangingMotor = hardwareMap.get(DcMotor.class, "hangingMotor");
         arm = hardwareMap.get(DcMotor.class,"arm");
-        tilter = hardwareMap.get(Servo.class, "tilter"); //also known as "elbow"
+        tilter = hardwareMap.get(Servo.class,"tilter"); //also known as "elbow"
         //intake = hardwareMap.get(CRServo.class, "intake");
         wrist = hardwareMap.get(Servo.class,"wrist");
         grabber = hardwareMap.get(Servo.class,"grabber");
@@ -84,6 +84,7 @@ public class RobotMethods {
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
         hangingMotor.setDirection(DcMotor.Direction.FORWARD);
         arm.setDirection(DcMotor.Direction.REVERSE);
+        arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
     public void spinLeft(double distance, double power) {
@@ -232,7 +233,7 @@ public class RobotMethods {
         while (timer.seconds() < duration) {
             // wait for the specified duration
         }
-      //  arm.setPower(0.05); // Stop the arm after the duration has passed
+       //arm.setPower(0.05); // Stop the arm after the duration has passed
 
     }
 
