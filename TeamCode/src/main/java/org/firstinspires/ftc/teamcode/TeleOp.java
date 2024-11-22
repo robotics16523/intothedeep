@@ -62,7 +62,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 // KEEP REV OPEN WHEN PUSHING
-@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="TeleOp_v30", group="Linear OpMode")
+@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="TeleOp_v32", group="Linear OpMode")
 public class TeleOp extends LinearOpMode {
     RobotMethods robot = new RobotMethods();
     private ElapsedTime runtime = new ElapsedTime();

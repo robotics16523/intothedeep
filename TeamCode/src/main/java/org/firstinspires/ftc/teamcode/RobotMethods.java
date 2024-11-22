@@ -61,9 +61,9 @@ public class RobotMethods {
     public final double WHEEL_BASE_WIDTH_CM = 2 * DRIVE_WHEEL_DIAMETER_MM / 10; // Convert from mm to cm
     public final double COUNTS_PER_DEGREE = COUNTS_PER_CM * Math.PI * WHEEL_BASE_WIDTH_CM / 360.0;
     public boolean armIsGoingDown = false;
-    public final double TILTER_UP = .25;
-    public final double TILTER_DOWN =.598;
-    public final double TILTER_MIDDLE =.338;
+    public final double TILTER_UP = .23;
+    public final double TILTER_DOWN =.57;
+    public final double TILTER_MIDDLE =.32;
     public final double GRABBER_OPEN = .5;
     public final double GRABBER_CLOSED = 0.64;
 
