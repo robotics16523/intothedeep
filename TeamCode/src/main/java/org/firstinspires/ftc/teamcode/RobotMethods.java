@@ -63,7 +63,7 @@ public class RobotMethods {
     public boolean armIsGoingDown = false;
     public final double TILTER_UP = .23;
     public final double TILTER_DOWN =.57;
-    public final double TILTER_MIDDLE =.32;
+    public final double TILTER_MIDDLE =.30;
     public final double GRABBER_OPEN = .5;
     public final double GRABBER_CLOSED = 0.64;
 

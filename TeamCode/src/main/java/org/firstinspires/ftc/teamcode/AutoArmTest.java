@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-@Autonomous(name="AutoArmTest", group = "Concept")
+@Autonomous(name="AutoArmTest_v2", group = "Concept")
 public class AutoArmTest extends LinearOpMode {
 
     @Override
@@ -27,13 +27,13 @@ public class AutoArmTest extends LinearOpMode {
           robot.driveBackward(20,0.75);
           robot.lowerArm(0.75,2.2);
           robot.spinRight(74,0.5);
-          robot.driveForward(14,0.5);
+          robot.driveForward(13,0.5);
           robot.tilter(robot.TILTER_DOWN,0.75);
           robot.grabber(robot.GRABBER_CLOSED);
           robot.timeOut(.5);
           robot.tilter(robot.TILTER_UP,0.75);
-          robot.spinLeft(78,0.75);
-          robot.driveForward(27,0.75);
+          robot.spinLeft(80,0.75);
+          robot.driveForward(27.5,0.75);
           robot.raiseArm(0.75,2.2);
           robot.tilter(robot.TILTER_MIDDLE,0.75);
           robot.grabber(robot.GRABBER_OPEN);
