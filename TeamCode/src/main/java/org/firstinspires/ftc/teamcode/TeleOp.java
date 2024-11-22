@@ -136,6 +136,9 @@ public class TeleOp extends LinearOpMode {
                     if (gamepad2.dpad_left){
                         robot.tilter.setPosition(robot.TILTER_MIDDLE);
                     }
+                    if (gamepad2.back){
+                        robot.tilter.setPosition(robot.TILTER_MIDDLE);
+                    }
                     if(gamepad1.dpad_left){
                         robot.spinLeft(56,.75);
                     }
