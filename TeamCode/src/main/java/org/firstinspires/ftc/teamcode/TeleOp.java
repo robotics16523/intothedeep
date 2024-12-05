@@ -30,6 +30,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -62,13 +63,14 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 // KEEP REV OPEN WHEN PUSHING
-@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="TeleOp_v33", group="Linear OpMode")
+@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="TeleOp_v40", group="Linear OpMode")
 public class TeleOp extends LinearOpMode {
     RobotMethods robot = new RobotMethods();
     private ElapsedTime runtime = new ElapsedTime();
     @Override
     public void runOpMode() {
         robot.init(hardwareMap);
+       // robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         waitForStart();
                 runtime.reset();
                 // run until the end of the match (driver presses STOP)
@@ -114,11 +116,10 @@ public class TeleOp extends LinearOpMode {
 //                        robot.grabber.setPosition(gamepad2.left_trigger);
 //                    }
 
-                    if (gamepad2.dpad_up){
-                        robot.grabber.setPosition(.5);
-                    }
-                    if (gamepad2.dpad_down){
+                    if (gamepad2.dpad_up) {
                         robot.grabber.setPosition(robot.GRABBER_CLOSED);
+                        robot.lowerArm(.25,.81);
+                        robot.grabber.setPosition(robot.GRABBER_OPEN);
                     }
 
                     if(gamepad2.y){

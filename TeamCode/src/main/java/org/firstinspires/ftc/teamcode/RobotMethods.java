@@ -61,11 +61,12 @@ public class RobotMethods {
     public final double WHEEL_BASE_WIDTH_CM = 2 * DRIVE_WHEEL_DIAMETER_MM / 10; // Convert from mm to cm
     public final double COUNTS_PER_DEGREE = COUNTS_PER_CM * Math.PI * WHEEL_BASE_WIDTH_CM / 360.0;
     public boolean armIsGoingDown = false;
-    public final double TILTER_UP = .23;
-    public final double TILTER_DOWN =.57;
-    public final double TILTER_MIDDLE =.30;
+    public final double TILTER_UP = .145;
+    public final double TILTER_DOWN =.45;
+    public final double TILTER_MIDDLE =.24;
     public final double GRABBER_OPEN = .5;
     public final double GRABBER_CLOSED = 0.64;
+
 
     public void init(HardwareMap hardwareMap) {
         leftFrontDrive = hardwareMap.get(DcMotor.class, "left_front_drive");
@@ -84,6 +85,7 @@ public class RobotMethods {
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
         hangingMotor.setDirection(DcMotor.Direction.FORWARD);
         arm.setDirection(DcMotor.Direction.REVERSE);
+
         arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
@@ -236,7 +238,6 @@ public class RobotMethods {
        //arm.setPower(0.05); // Stop the arm after the duration has passed
 
     }
-
     public void lowerArm(double power, double duration) {
         timer.reset();
         arm.setPower(-Math.abs(power));
@@ -245,6 +246,7 @@ public class RobotMethods {
         }
         arm.setPower(0); // Stop the arm after the duration has passed
     }
+
 
     public void drive(double distance, double power) {
         int leftfronttarget = leftFrontDrive.getCurrentPosition() + (int) (distance * DRIVE_COUNTS_PER_CENTIMETERS);
