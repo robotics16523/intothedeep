@@ -62,7 +62,7 @@ public class RobotMethods {
     public final double COUNTS_PER_DEGREE = COUNTS_PER_CM * Math.PI * WHEEL_BASE_WIDTH_CM / 360.0;
     public boolean armIsGoingDown = false;
     public final double TILTER_UP = .145;
-    public final double TILTER_DOWN =.45;
+    public final double TILTER_DOWN =.445;
     public final double TILTER_MIDDLE =.24;
     public final double GRABBER_OPEN = .5;
     public final double GRABBER_CLOSED = 0.64;
