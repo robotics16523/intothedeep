@@ -3,8 +3,8 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-@Autonomous(name="AutoArmTest_v11", group = "Concept")
-public class AutoArmTest extends LinearOpMode {
+@Autonomous(name="AutoASample_v11", group = "Concept")
+public class AutoASample extends LinearOpMode {
 
     @Override
     public void runOpMode(){

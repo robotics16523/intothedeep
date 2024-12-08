@@ -3,8 +3,8 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-@Autonomous(name="NewAutoArmTest_v5", group = "Concept")
-public class NewAutoArmTest extends LinearOpMode {
+@Autonomous(name="FastAutoSample_v5", group = "Concept")
+public class FastAutoSample extends LinearOpMode {
 
     @Override
     public void runOpMode(){
@@ -16,7 +16,7 @@ public class NewAutoArmTest extends LinearOpMode {
             robot.timeOut(.1);
             robot.strafeRight(45,0.9);
             robot.spinLeft(27,0.9);
-            robot.driveForward(30,0.9);
+            robot.driveForward(27,0.9);
             robot.raiseArm(0.8,2);
             // timeout was here
             robot.tilter(robot.TILTER_MIDDLE,0.75);
