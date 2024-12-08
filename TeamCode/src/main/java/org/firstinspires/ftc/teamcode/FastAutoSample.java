@@ -21,7 +21,7 @@ public class FastAutoSample extends LinearOpMode {
             // timeout was here
             robot.tilter(robot.TILTER_MIDDLE,0.75);
             robot.timeOut(.25);
-            robot.grabber(robot.GRABBER_OPEN);
+            robot.grabber(robot.GRABBER_AUTO_OPEN);
             robot.timeOut(.1);
             robot.tilter(robot.TILTER_UP,0.75);
             robot.driveBackward(10,0.9);
@@ -37,7 +37,7 @@ public class FastAutoSample extends LinearOpMode {
             robot.raiseArm(0.8,2);
             robot.tilter(robot.TILTER_MIDDLE,0.75);
             robot.timeOut(.25);
-            robot.grabber(robot.GRABBER_OPEN);
+            robot.grabber(robot.GRABBER_AUTO_OPEN);
             robot.timeOut(.1);
             robot.tilter(robot.TILTER_UP,0.75);
             robot.driveBackward(12,0.9);

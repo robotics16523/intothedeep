@@ -23,7 +23,7 @@ public class Specimen2 extends LinearOpMode {
             robot.driveForward(robot.FIELD_TILE/4.5,0.75);
             robot.timeOut(1);
             robot.lowerArm(0.75,0.5);
-            robot.grabber(robot.GRABBER_OPEN);
+            robot.grabber(robot.GRABBER_AUTO_OPEN);
             robot.timeOut(1);
             robot.driveBackward(robot.FIELD_TILE/2,0.75);
             robot.lowerArm(0.75,0.5);
