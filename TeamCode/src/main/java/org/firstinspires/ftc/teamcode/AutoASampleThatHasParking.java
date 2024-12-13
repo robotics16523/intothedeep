@@ -3,8 +3,8 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-@Autonomous(name="AutoASampleThatHasParking", group = "Concept")
-public class AutoASample2 extends LinearOpMode {
+@Autonomous(name="AutoASampleThatHasParking v2", group = "Concept")
+public class AutoASampleThatHasParking extends LinearOpMode {
 
     @Override
     public void runOpMode(){
@@ -12,23 +12,23 @@ public class AutoASample2 extends LinearOpMode {
         waitForStart();
         if (opModeIsActive()) {
             robot.init(hardwareMap);
-            robot.tilter(robot.TILTER_UP,0.5);
-            robot.timeOut(0.5);
-       robot.strafeRight(58,0.65);
+            robot.tilter(robot.TILTER_UP,0.3);
+            robot.timeOut(0.3);
+       robot.strafeRight(58,0.75);
        robot.spinLeft(26,0.75);
-            robot.driveForward(45,0.5);
+            robot.driveForward(45,0.65);
           robot.raiseArm(0.75,2.2);
           // timeout was here
-          robot.tilter(robot.TILTER_MIDDLE,0.75);
+          robot.tilter(robot.TILTER_MIDDLE,0.5);
             robot.timeOut(.25);
             robot.grabber(robot.GRABBER_AUTO_OPEN);
           robot.timeOut(.5);
           robot.tilter(robot.TILTER_UP,0.75);
           robot.driveBackward(16,0.75);
           robot.lowerArm(0.75,2.2);
-          robot.spinRight(73,0.5);
+          robot.spinRight(70,0.5);
           // make less later
-          robot.driveForward(15,0.5);
+          robot.driveForward(15,0.75);
           robot.tilter(robot.TILTER_DOWN,0.75);
           robot.timeOut(0.2);
           robot.grabber(robot.GRABBER_CLOSED);
@@ -52,7 +52,7 @@ public class AutoASample2 extends LinearOpMode {
 //          robot.tilter(0.62,1);
 
           //  robot.lowerArm(0.5,1.5);
-            robot.spinRight(58.50,0.75);
+            robot.spinRight(115,0.75);
             robot.driveForward(70,0.75);
             robot.spinRight(14.18,0.75);
             robot.driveForward(35,0.75);
