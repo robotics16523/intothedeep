@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-@Autonomous(name="AutoASample_v12", group = "Concept")
+@Autonomous(name="AutoASample_v13", group = "Concept")
 public class AutoASample extends LinearOpMode {
 
     @Override
@@ -16,7 +16,7 @@ public class AutoASample extends LinearOpMode {
             robot.timeOut(0.5);
        robot.strafeRight(58,0.65);
        robot.spinLeft(26,0.75);
-            robot.driveForward(45,0.5);
+            robot.driveForward(43,0.5);
           robot.raiseArm(0.75,2.2);
           // timeout was here
           robot.tilter(robot.TILTER_MIDDLE,0.75);
@@ -28,14 +28,14 @@ public class AutoASample extends LinearOpMode {
           robot.lowerArm(0.75,2.2);
           robot.spinRight(73,0.5);
           // make less later
-          robot.driveForward(15,0.5);
+          robot.driveForward(13.5,0.5); //15
           robot.tilter(robot.TILTER_DOWN,0.75);
-          robot.timeOut(0.2);
+          robot.timeOut(0.75);
           robot.grabber(robot.GRABBER_CLOSED);
           robot.timeOut(.5);
           robot.tilter(robot.TILTER_UP,0.75);
           robot.spinLeft(77,0.75);
-          robot.driveForward(30,0.75);
+          robot.driveForward(28.5,0.75);
           robot.raiseArm(0.75,2.2);
           robot.tilter(robot.TILTER_MIDDLE,0.75);
           robot.timeOut(.25);

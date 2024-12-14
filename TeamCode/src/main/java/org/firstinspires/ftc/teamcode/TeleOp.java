@@ -63,7 +63,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 // KEEP REV OPEN WHEN PUSHING
-@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="TeleOp_v40", group="Linear OpMode")
+@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="TeleOp_v43", group="Linear OpMode")
 public class TeleOp extends LinearOpMode {
     RobotMethods robot = new RobotMethods();
     private ElapsedTime runtime = new ElapsedTime();
@@ -116,17 +116,17 @@ public class TeleOp extends LinearOpMode {
 //                        robot.grabber.setPosition(gamepad2.left_trigger);
 //                    }
 
-                    if (gamepad2.dpad_up) {
-                        robot.grabber.setPosition(robot.GRABBER_CLOSED);
-                        robot.lowerArm(.25,.81);
-                        robot.grabber.setPosition(robot.GRABBER_OPEN);
-                    }
+//                  //  if (gamepad2.dpad_up) {
+//                        robot.grabber.setPosition(robot.GRABBER_CLOSED);
+//                        robot.lowerArm(.25,.81);
+//                        robot.grabber.setPosition(robot.GRABBER_OPEN);
+//                    }
 
                     if(gamepad2.y){
-                        robot.extendHangingMotor(.75);
+                        robot.extendHangingMotor(1);
                     }
                     if(gamepad2.a){
-                        robot.retractHangingMotor(.75);
+                        robot.retractHangingMotor(19);
                     }
                     if(gamepad2.x){
                         robot.tilter.setPosition(robot.TILTER_DOWN);
@@ -137,6 +137,7 @@ public class TeleOp extends LinearOpMode {
                     if (gamepad2.dpad_left){
                         robot.tilter.setPosition(robot.TILTER_MIDDLE);
                     }
+
                     if (gamepad2.back){
                         robot.tilter.setPosition(robot.TILTER_MIDDLE);
                     }
