@@ -30,9 +30,6 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /*
@@ -129,17 +126,17 @@ public class TeleOp extends LinearOpMode {
                         robot.retractHangingMotor(19);
                     }
                     if(gamepad2.x){
-                        robot.tilter.setPosition(robot.TILTER_DOWN);
+                        robot.tilterServo.setPosition(robot.TILTER_DOWN);
                     }
                     if(gamepad2.b){
-                        robot.tilter.setPosition(robot.TILTER_UP);
+                        robot.tilterServo.setPosition(robot.TILTER_UP);
                     }
                     if (gamepad2.dpad_left){
-                        robot.tilter.setPosition(robot.TILTER_MIDDLE);
+                        robot.tilterServo.setPosition(robot.TILTER_MIDDLE);
                     }
 
                     if (gamepad2.back){
-                        robot.tilter.setPosition(robot.TILTER_MIDDLE);
+                        robot.tilterServo.setPosition(robot.TILTER_MIDDLE);
                     }
                     if(gamepad1.dpad_left){
                         robot.spinLeft(56,.75);
@@ -151,15 +148,15 @@ public class TeleOp extends LinearOpMode {
                         robot.spinLeft(112, .75);
                     }
                     double armPower = -gamepad2.left_stick_y;
-                    robot.arm.setPower(armPower);
+                    robot.armMotor.setPower(armPower);
                     if (armPower > 0) {
-                        robot.arm.setPower(Math.abs(armPower));
+                        robot.armMotor.setPower(Math.abs(armPower));
                     }
                    else if (armPower < 0) {
-                        robot.arm.setPower(-Math.abs(armPower));
+                        robot.armMotor.setPower(-Math.abs(armPower));
                     }
                    else {
-                       robot.arm.setPower(0);
+                       robot.armMotor.setPower(0);
                     }
 
 //                    boolean wristForwardController = gamepad2.right_bumper;
@@ -183,8 +180,8 @@ public class TeleOp extends LinearOpMode {
             telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower,    rightFrontPower);
             telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
             telemetry.addData("Arm power: ", "%4.2f", armPower);
-            telemetry.addData("Arm position:",robot.arm.getCurrentPosition());
-            telemetry.addData("Tilter position:",robot.tilter.getPosition());
+            telemetry.addData("Arm position:",robot.armMotor.getCurrentPosition());
+            telemetry.addData("Tilter position:",robot.tilterServo.getPosition());
            telemetry.addData("Grabber position",robot.grabber.getPosition());
             telemetry.update();
 

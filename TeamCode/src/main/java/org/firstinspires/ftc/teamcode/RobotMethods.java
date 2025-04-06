@@ -31,9 +31,7 @@
 //CHARGE CONTROL HUBS
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -44,8 +42,8 @@ public class RobotMethods {
     public DcMotor rightFrontDrive = null;
     public DcMotor rightBackDrive = null;
     public DcMotor hangingMotor = null;
-    public DcMotor arm = null;
-    public Servo tilter = null;
+    public DcMotor armMotor = null;
+    public Servo tilterServo = null;
    // public CRServo intake = null;
     public Servo grabber = null;
     public Servo wrist = null;
@@ -62,7 +60,7 @@ public class RobotMethods {
     public final double COUNTS_PER_DEGREE = COUNTS_PER_CM * Math.PI * WHEEL_BASE_WIDTH_CM / 360.0;
     public boolean armIsGoingDown = false;
     public final double TILTER_UP = .32;
-    public final double TILTER_DOWN =.6375;//.445 was original og .635
+    public final double TILTER_DOWN =.645;//.445 was original og .635, .6375
     public final double TILTER_MIDDLE =.38; //0.42 og
     public final double GRABBER_OPEN = .5; // previously 0.5
     public final double GRABBER_AUTO_OPEN = 0.45;
@@ -75,8 +73,8 @@ public class RobotMethods {
         rightFrontDrive = hardwareMap.get(DcMotor.class, "right_front_drive");
         rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
         hangingMotor = hardwareMap.get(DcMotor.class, "hangingMotor");
-        arm = hardwareMap.get(DcMotor.class,"arm");
-        tilter = hardwareMap.get(Servo.class,"tilter");
+        armMotor = hardwareMap.get(DcMotor.class,"arm");
+        tilterServo = hardwareMap.get(Servo.class,"tilter");
         //intake = hardwareMap.get(CRServo.class, "intake");
         wrist = hardwareMap.get(Servo.class,"wrist");
         grabber = hardwareMap.get(Servo.class,"grabber");
@@ -85,9 +83,9 @@ public class RobotMethods {
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
         hangingMotor.setDirection(DcMotor.Direction.FORWARD);
-        arm.setDirection(DcMotor.Direction.REVERSE);
+        armMotor.setDirection(DcMotor.Direction.REVERSE);
 
-        arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
     public void spinLeft(double distance, double power) {
@@ -232,7 +230,7 @@ public class RobotMethods {
     }
     public void raiseArm(double power, double duration) {
         timer.reset();
-        arm.setPower(Math.abs(power));
+        armMotor.setPower(Math.abs(power));
         while (timer.seconds() < duration) {
             // wait for the specified duration
         }
@@ -241,11 +239,11 @@ public class RobotMethods {
     }
     public void lowerArm(double power, double duration) {
         timer.reset();
-        arm.setPower(-Math.abs(power));
+        armMotor.setPower(-Math.abs(power));
         while (timer.seconds() < duration) {
             // wait for the specified duration
         }
-        arm.setPower(0); // Stop the arm after the duration has passed
+        armMotor.setPower(0); // Stop the arm after the duration has passed
     }
 
 
@@ -296,7 +294,7 @@ public class RobotMethods {
         drive(driveDistance, power);
     }
     public void tilter(double position, double duration) {
-        tilter.setPosition(position); // Set the servo position
+        tilterServo.setPosition(position); // Set the servo position
         ElapsedTime timer = new ElapsedTime();
         timer.reset();
         while (timer.seconds() < duration) {

@@ -52,4 +52,4 @@ public class FastAutoSample extends LinearOpMode {
         }
     }
 }
-// this works! copy aND PASTE TO O
+// this works!
