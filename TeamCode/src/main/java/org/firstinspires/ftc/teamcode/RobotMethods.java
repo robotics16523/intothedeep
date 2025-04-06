@@ -45,8 +45,8 @@ public class RobotMethods {
     public DcMotor armMotor = null;
     public Servo tilterServo = null;
    // public CRServo intake = null;
-    public Servo grabber = null;
-    public Servo wrist = null;
+    public Servo grabberServo = null;
+    public Servo wristServo = null;
     public final double COUNTS_PER_MOTOR_REV = 537.7;
     public final double DRIVE_WHEEL_DIAMETER_CENTIMETERS = 9.6;
     double strafeTick = (COUNTS_PER_MOTOR_REV / (Math.PI * DRIVE_WHEEL_DIAMETER_CENTIMETERS));
@@ -76,8 +76,8 @@ public class RobotMethods {
         armMotor = hardwareMap.get(DcMotor.class,"arm");
         tilterServo = hardwareMap.get(Servo.class,"tilter");
         //intake = hardwareMap.get(CRServo.class, "intake");
-        wrist = hardwareMap.get(Servo.class,"wrist");
-        grabber = hardwareMap.get(Servo.class,"grabber");
+        wristServo = hardwareMap.get(Servo.class,"wrist");
+        grabberServo = hardwareMap.get(Servo.class,"grabber");
         leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
@@ -163,6 +163,7 @@ public class RobotMethods {
     }
 
     public void retractHangingMotor(double power) {
+
         hangingMotor.setPower(-(Math.abs(power)));
     }
 
@@ -293,7 +294,7 @@ public class RobotMethods {
         double driveDistance = -(Math.abs(distance)); //seems redundant but does make sense, fixes user error
         drive(driveDistance, power);
     }
-    public void tilter(double position, double duration) {
+    public void tilt(double position, double duration) {
         tilterServo.setPosition(position); // Set the servo position
         ElapsedTime timer = new ElapsedTime();
         timer.reset();
@@ -301,8 +302,8 @@ public class RobotMethods {
             // Wait for the specified duration for the servo to reach the position
         }
     }
-    public void grabber(double position){
-        grabber.setPosition(position);
+    public void grab(double position){
+        grabberServo.setPosition(position);
     }
 
 }

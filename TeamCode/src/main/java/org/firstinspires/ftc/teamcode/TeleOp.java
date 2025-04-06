@@ -103,11 +103,11 @@ public class TeleOp extends LinearOpMode {
 
                     if(gamepad2.left_bumper){
 //                        robot.grabber.setDirection(Servo.Direction.REVERSE);
-                        robot.grabber.setPosition(robot.GRABBER_OPEN);
+                        robot.grabberServo.setPosition(robot.GRABBER_OPEN);
                     }
                     else if(gamepad2.right_bumper){
 //                        robot.grabber.setDirection(Servo.Direction.FORWARD);
-                        robot.grabber.setPosition(robot.GRABBER_CLOSED);
+                        robot.grabberServo.setPosition(robot.GRABBER_CLOSED);
                     }
 //                    if(gamepad2.left_trigger > 0){
 //                        robot.grabber.setPosition(gamepad2.left_trigger);
@@ -182,7 +182,7 @@ public class TeleOp extends LinearOpMode {
             telemetry.addData("Arm power: ", "%4.2f", armPower);
             telemetry.addData("Arm position:",robot.armMotor.getCurrentPosition());
             telemetry.addData("Tilter position:",robot.tilterServo.getPosition());
-           telemetry.addData("Grabber position",robot.grabber.getPosition());
+           telemetry.addData("Grabber position",robot.grabberServo.getPosition());
             telemetry.update();
 
         }

@@ -12,9 +12,9 @@ public class AutoArmTest2 extends LinearOpMode {
         waitForStart();
         if (opModeIsActive()) {
             robot.init(hardwareMap);
-            robot.grabber(robot.GRABBER_CLOSED);
+            robot.grab(robot.GRABBER_CLOSED);
             robot.timeOut(0.5);
-            robot.tilter(robot.TILTER_UP,2);
+            robot.tilt(robot.TILTER_UP,2);
             robot.timeOut(1);
             robot.driveForward(robot.FIELD_TILE,0.75);
             robot.strafeLeft(robot.FIELD_TILE/2,0.75);
@@ -23,7 +23,7 @@ public class AutoArmTest2 extends LinearOpMode {
           robot.driveForward(robot.FIELD_TILE/4.5,0.75);
             robot.timeOut(1);
             robot.lowerArm(0.75,0.5);
-           robot.grabber(robot.GRABBER_AUTO_OPEN);
+           robot.grab(robot.GRABBER_AUTO_OPEN);
            robot.timeOut(1);
            robot.driveBackward(robot.FIELD_TILE/2,0.75);
            robot.lowerArm(0.75,0.5);
