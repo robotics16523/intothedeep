@@ -60,10 +60,14 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 // KEEP REV OPEN WHEN PUSHING
+
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="TeleOp_v43", group="Linear OpMode")
 public class TeleOp extends LinearOpMode {
+
     RobotMethods robot = new RobotMethods();
+
     private ElapsedTime runtime = new ElapsedTime();
+
     @Override
     public void runOpMode() {
         robot.init(hardwareMap);
@@ -84,6 +88,12 @@ public class TeleOp extends LinearOpMode {
                     double leftBackPower   = axial - lateral + yaw;
                     double rightBackPower  = axial + lateral - yaw;
 
+                    // Send calculated power to wheels
+                    robot.leftFrontDrive.setPower(leftFrontPower);
+                    robot.rightFrontDrive.setPower(rightFrontPower);
+                    robot.leftBackDrive.setPower(leftBackPower);
+                    robot.rightBackDrive.setPower(rightBackPower);
+
                     // Normalize the values so no wheel power exceeds 100%
                     // This ensures that the robot maintains the desired motion.
                     max = Math.max(Math.abs(leftFrontPower), Math.abs(rightFrontPower));
@@ -102,28 +112,18 @@ public class TeleOp extends LinearOpMode {
                     robot.rightBackDrive.setPower(rightBackPower*0.65);
 
                     if(gamepad2.left_bumper){
-//                        robot.grabber.setDirection(Servo.Direction.REVERSE);
                         robot.grabberServo.setPosition(robot.GRABBER_OPEN);
                     }
+
                     else if(gamepad2.right_bumper){
-//                        robot.grabber.setDirection(Servo.Direction.FORWARD);
                         robot.grabberServo.setPosition(robot.GRABBER_CLOSED);
                     }
-//                    if(gamepad2.left_trigger > 0){
-//                        robot.grabber.setPosition(gamepad2.left_trigger);
-//                    }
-
-//                  //  if (gamepad2.dpad_up) {
-//                        robot.grabber.setPosition(robot.GRABBER_CLOSED);
-//                        robot.lowerArm(.25,.81);
-//                        robot.grabber.setPosition(robot.GRABBER_OPEN);
-//                    }
 
                     if(gamepad2.y){
                         robot.extendHangingMotor(1);
                     }
                     if(gamepad2.a){
-                        robot.retractHangingMotor(19);
+                        robot.retractHangingMotor(1);
                     }
                     if(gamepad2.x){
                         robot.tilterServo.setPosition(robot.TILTER_DOWN);
@@ -138,17 +138,10 @@ public class TeleOp extends LinearOpMode {
                     if (gamepad2.back){
                         robot.tilterServo.setPosition(robot.TILTER_MIDDLE);
                     }
-                    if(gamepad1.dpad_left){
-                        robot.spinLeft(56,.75);
-                    }
-                    if(gamepad1.dpad_right) {
-                        robot.spinRight(56, .75);
-                    }
-                    if(gamepad1.dpad_up) {
-                        robot.spinLeft(112, .75);
-                    }
+
                     double armPower = -gamepad2.left_stick_y;
                     robot.armMotor.setPower(armPower);
+
                     if (armPower > 0) {
                         robot.armMotor.setPower(Math.abs(armPower));
                     }
@@ -159,30 +152,14 @@ public class TeleOp extends LinearOpMode {
                        robot.armMotor.setPower(0);
                     }
 
-//                    boolean wristForwardController = gamepad2.right_bumper;
-//                    if(wristForwardController) {
-//                        robot.wrist.setDirection(Servo.Direction.FORWARD);
-//                        robot.wrist.setPosition(.5);
-//                    }
-//                    boolean wristBackwardController = gamepad2.left_bumper;
-//                    if(wristBackwardController) {
-//                      robot.wrist.setDirection(Servo.Direction.REVERSE);
-//                      robot.wrist.setPosition(0);
-//                    }
-
-
-            // Send calculated power to wheels
-            robot.leftFrontDrive.setPower(leftFrontPower);
-            robot.rightFrontDrive.setPower(rightFrontPower);
-            robot.leftBackDrive.setPower(leftBackPower);
-            robot.rightBackDrive.setPower(rightBackPower);
+            //telemetry
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower,    rightFrontPower);
             telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
             telemetry.addData("Arm power: ", "%4.2f", armPower);
             telemetry.addData("Arm position:",robot.armMotor.getCurrentPosition());
             telemetry.addData("Tilter position:",robot.tilterServo.getPosition());
-           telemetry.addData("Grabber position",robot.grabberServo.getPosition());
+            telemetry.addData("Grabber position",robot.grabberServo.getPosition());
             telemetry.update();
 
         }
