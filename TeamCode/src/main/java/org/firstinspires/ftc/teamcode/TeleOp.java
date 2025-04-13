@@ -32,6 +32,8 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcontroller.external.samples.UtilityOctoQuadConfigMenu;
+
 /*
  * This file contains an example of a Linear "OpMode".
  * An OpMode is a 'program' that runs in either the autonomous or the teleop period of an FTC match.
@@ -68,6 +70,8 @@ public class TeleOp extends LinearOpMode {
 
     private ElapsedTime runtime = new ElapsedTime();
 
+
+
     @Override
     public void runOpMode() {
         robot.init(hardwareMap);
@@ -88,6 +92,7 @@ public class TeleOp extends LinearOpMode {
                     double leftBackPower   = axial - lateral + yaw;
                     double rightBackPower  = axial + lateral - yaw;
 
+                    robot.odometer.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
                     // Send calculated power to wheels
                     robot.leftFrontDrive.setPower(leftFrontPower);
                     robot.rightFrontDrive.setPower(rightFrontPower);
@@ -160,6 +165,8 @@ public class TeleOp extends LinearOpMode {
             telemetry.addData("Arm position:",robot.armMotor.getCurrentPosition());
             telemetry.addData("Tilter position:",robot.tilterServo.getPosition());
             telemetry.addData("Grabber position",robot.grabberServo.getPosition());
+            telemetry.addData("Odometer X", robot.odometer.getPosition());
+            telemetry.addData("Odometer Y", robot.odometer.getPosition());
             telemetry.update();
 
         }

@@ -45,6 +45,7 @@ public class RobotMethods {
     public DcMotor armMotor = null;
     public Servo tilterServo = null;
     public Servo grabberServo = null;
+    public GoBildaPinpointDriver odometer = null;
 
     public final double COUNTS_PER_MOTOR_REV = 537.7;
     public final double DRIVE_WHEEL_DIAMETER_CENTIMETERS = 9.6;
@@ -74,6 +75,7 @@ public class RobotMethods {
         armMotor = hardwareMap.get(DcMotor.class, "arm");
         tilterServo = hardwareMap.get(Servo.class, "tilter");
         grabberServo = hardwareMap.get(Servo.class, "grabber");
+        odometer = hardwareMap.get(GoBildaPinpointDriver.class, "odometer");
 
         leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
@@ -81,7 +83,7 @@ public class RobotMethods {
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
         hangingMotor.setDirection(DcMotor.Direction.FORWARD);
         armMotor.setDirection(DcMotor.Direction.REVERSE);
-
+        odometer.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD, GoBildaPinpointDriver.EncoderDirection.FORWARD);
         armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
@@ -398,4 +400,5 @@ public class RobotMethods {
         public void openAutoGrabber () {
             grabberServo.setPosition(GRABBER_AUTO_OPEN);
         }
+
     }
