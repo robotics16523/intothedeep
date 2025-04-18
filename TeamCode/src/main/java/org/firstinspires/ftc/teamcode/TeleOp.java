@@ -63,14 +63,14 @@ import org.firstinspires.ftc.robotcontroller.external.samples.UtilityOctoQuadCon
  */
 // KEEP REV OPEN WHEN PUSHING
 
-@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="TeleOp_v43", group="Linear OpMode")
+@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="TeleOp_v44", group="Linear OpMode")
 public class TeleOp extends LinearOpMode {
 
     RobotMethods robot = new RobotMethods();
 
     private ElapsedTime runtime = new ElapsedTime();
 
-
+    robot.odometer.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD);
 
     @Override
     public void runOpMode() {
