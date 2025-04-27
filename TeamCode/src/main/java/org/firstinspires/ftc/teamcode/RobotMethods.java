@@ -36,6 +36,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+
 public class RobotMethods {
     public DcMotor leftFrontDrive = null;
     public DcMotor leftBackDrive = null;
@@ -75,7 +77,11 @@ public class RobotMethods {
         armMotor = hardwareMap.get(DcMotor.class, "arm");
         tilterServo = hardwareMap.get(Servo.class, "tilter");
         grabberServo = hardwareMap.get(Servo.class, "grabber");
+
         odometer = hardwareMap.get(GoBildaPinpointDriver.class, "odometer");
+        odometer.setOffsets(-84.0, -168.0, DistanceUnit.MM);
+        odometer.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
+        odometer.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD, GoBildaPinpointDriver.EncoderDirection.FORWARD);
 
         leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
@@ -103,10 +109,10 @@ public class RobotMethods {
         rightFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        leftFrontDrive.setPower(Math.abs(power) * 0.5);
-        leftBackDrive.setPower(Math.abs(power) * 0.5);
-        rightFrontDrive.setPower(Math.abs(power) * 0.5);
-        rightBackDrive.setPower(Math.abs(power) * 0.5);
+        leftFrontDrive.setPower(Math.abs(power) * 0.75);
+        leftBackDrive.setPower(Math.abs(power) * 0.75);
+        rightFrontDrive.setPower(Math.abs(power) * 0.75);
+        rightBackDrive.setPower(Math.abs(power) * 0.75);
 
         while (leftFrontDrive.isBusy() && leftBackDrive.isBusy() && rightFrontDrive.isBusy() && rightBackDrive.isBusy()) {
 
@@ -362,14 +368,14 @@ public class RobotMethods {
             armMotor.setPower(0); // Stop the arm after the duration has passed
         }
 
-//    public void tilt(double position, double duration) {
-//        tilterServo.setPosition(position); // Set the servo position
-//        ElapsedTime timer = new ElapsedTime();
-//        timer.reset();
-//        while (timer.seconds() < duration) {
-//            // Wait for the specified duration for the servo to reach the position
-//        }
-//    }
+    public void tilt(double position, double duration) {
+        tilterServo.setPosition(position); // Set the servo position
+        ElapsedTime timer = new ElapsedTime();
+        timer.reset();
+        while (timer.seconds() < duration) {
+            // Wait for the specified duration for the servo to reach the position
+        }
+    }
 
         public void tiltUp () {
             tilterServo.setPosition(TILTER_UP);
@@ -383,10 +389,10 @@ public class RobotMethods {
             tilterServo.setPosition(TILTER_DOWN);
         }
 
-//        public void grab ( double position){
-//            grabberServo.setPosition(position);
-//
-//        }
+        public void grab ( double position){
+            grabberServo.setPosition(position);
+
+        }
 
         public void openGrabber () {
             grabberServo.setPosition(GRABBER_OPEN);

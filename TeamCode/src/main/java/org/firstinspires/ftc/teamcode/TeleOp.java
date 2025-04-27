@@ -33,6 +33,12 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcontroller.external.samples.UtilityOctoQuadConfigMenu;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
+import org.firstinspires.ftc.robotcore.external.navigation.UnnormalizedAngleUnit;
+
+import java.util.Locale;
 
 /*
  * This file contains an example of a Linear "OpMode".
@@ -63,108 +69,126 @@ import org.firstinspires.ftc.robotcontroller.external.samples.UtilityOctoQuadCon
  */
 // KEEP REV OPEN WHEN PUSHING
 
-@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="TeleOp_v44", group="Linear OpMode")
+@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "TeleOp_v52", group = "Linear OpMode")
 public class TeleOp extends LinearOpMode {
 
     RobotMethods robot = new RobotMethods();
 
     private ElapsedTime runtime = new ElapsedTime();
 
-    robot.odometer.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD);
-
     @Override
     public void runOpMode() {
         robot.init(hardwareMap);
-       // robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        robot.odometer.resetPosAndIMU();
+
+        // robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         waitForStart();
-                runtime.reset();
-                // run until the end of the match (driver presses STOP)
-                while (opModeIsActive()) {
-                    double max;
-                    // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
-                    double axial   = -gamepad1.left_stick_y;  // Note: pushing stick forward gives POSITIVE value
-                    double lateral =  gamepad1.left_stick_x;
-                    double yaw     =  gamepad1.right_stick_x;
-                    // Combine the joystick requests for each axis-motion to determine each wheel's power.
-                    // Set up a variable for each drive wheel to save the power level for telemetry.
-                    double leftFrontPower  = axial + lateral + yaw;
-                    double rightFrontPower = axial - lateral - yaw;
-                    double leftBackPower   = axial - lateral + yaw;
-                    double rightBackPower  = axial + lateral - yaw;
+        runtime.reset();
+        // run until the end of the match (driver presses STOP)
+        while (opModeIsActive()) {
+            robot.odometer.update();
 
-                    robot.odometer.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
-                    // Send calculated power to wheels
-                    robot.leftFrontDrive.setPower(leftFrontPower);
-                    robot.rightFrontDrive.setPower(rightFrontPower);
-                    robot.leftBackDrive.setPower(leftBackPower);
-                    robot.rightBackDrive.setPower(rightBackPower);
+            double max;
+            // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
+            double axial = -gamepad1.left_stick_y;  // Note: pushing stick forward gives POSITIVE value
+            double lateral = gamepad1.left_stick_x;
+            double yaw = gamepad1.right_stick_x;
+            // Combine the joystick requests for each axis-motion to determine each wheel's power.
+            // Set up a variable for each drive wheel to save the power level for telemetry.
+            double leftFrontPower = axial + lateral + yaw;
+            double rightFrontPower = axial - lateral - yaw;
+            double leftBackPower = axial - lateral + yaw;
+            double rightBackPower = axial + lateral - yaw;
 
-                    // Normalize the values so no wheel power exceeds 100%
-                    // This ensures that the robot maintains the desired motion.
-                    max = Math.max(Math.abs(leftFrontPower), Math.abs(rightFrontPower));
-                    max = Math.max(max, Math.abs(leftBackPower));
-                    max = Math.max(max, Math.abs(rightBackPower));
+            // Send calculated power to wheels
+            robot.leftFrontDrive.setPower(leftFrontPower);
+            robot.rightFrontDrive.setPower(rightFrontPower);
+            robot.leftBackDrive.setPower(leftBackPower);
+            robot.rightBackDrive.setPower(rightBackPower);
 
-                    if (max > 1.0) {
-                        leftFrontPower  /= max;
-                        rightFrontPower /= max;
-                        leftBackPower   /= max;
-                        rightBackPower  /= max;
-                    }
-                    robot.leftFrontDrive.setPower(leftFrontPower*0.65);
-                    robot.leftBackDrive.setPower(leftBackPower*0.65);
-                    robot.rightFrontDrive.setPower(rightFrontPower*0.65);
-                    robot.rightBackDrive.setPower(rightBackPower*0.65);
+            // Normalize the values so no wheel power exceeds 100%
+            // This ensures that the robot maintains the desired motion.
+            max = Math.max(Math.abs(leftFrontPower), Math.abs(rightFrontPower));
+            max = Math.max(max, Math.abs(leftBackPower));
+            max = Math.max(max, Math.abs(rightBackPower));
 
-                    if(gamepad2.left_bumper){
-                        robot.grabberServo.setPosition(robot.GRABBER_OPEN);
-                    }
+            if (max > 1.0) {
+                leftFrontPower /= max;
+                rightFrontPower /= max;
+                leftBackPower /= max;
+                rightBackPower /= max;
+            }
+            robot.leftFrontDrive.setPower(leftFrontPower * 0.65);
+            robot.leftBackDrive.setPower(leftBackPower * 0.65);
+            robot.rightFrontDrive.setPower(rightFrontPower * 0.65);
+            robot.rightBackDrive.setPower(rightBackPower * 0.65);
 
-                    else if(gamepad2.right_bumper){
-                        robot.grabberServo.setPosition(robot.GRABBER_CLOSED);
-                    }
+            if (gamepad2.left_bumper) {
+                robot.grabberServo.setPosition(robot.GRABBER_OPEN);
+            } else if (gamepad2.right_bumper) {
+                robot.grabberServo.setPosition(robot.GRABBER_CLOSED);
+            }
 
-                    if(gamepad2.y){
-                        robot.extendHangingMotor(1);
-                    }
-                    if(gamepad2.a){
-                        robot.retractHangingMotor(1);
-                    }
-                    if(gamepad2.x){
-                        robot.tilterServo.setPosition(robot.TILTER_DOWN);
-                    }
-                    if(gamepad2.b){
-                        robot.tilterServo.setPosition(robot.TILTER_UP);
-                    }
-                    if (gamepad2.dpad_left){
-                        robot.tilterServo.setPosition(robot.TILTER_MIDDLE);
-                    }
+            if (gamepad2.y) {
+                robot.extendHangingMotor(1);
+            }
+            if (gamepad2.a) {
+                robot.retractHangingMotor(1);
+            }
+            if (gamepad2.x) {
+                robot.tilterServo.setPosition(robot.TILTER_DOWN);
+            }
+            if (gamepad2.b) {
+                robot.tilterServo.setPosition(robot.TILTER_UP);
+            }
+            if (gamepad2.dpad_left) {
+                robot.tilterServo.setPosition(robot.TILTER_MIDDLE);
+            }
 
-                    if (gamepad2.back){
-                        robot.tilterServo.setPosition(robot.TILTER_MIDDLE);
-                    }
+            if (gamepad2.back) {
+                robot.tilterServo.setPosition(robot.TILTER_MIDDLE);
+            }
 
-                    double armPower = -gamepad2.left_stick_y;
-                    robot.armMotor.setPower(armPower);
+            double armPower = gamepad2.left_stick_y;
+            robot.armMotor.setPower(armPower);
 
-                    if (armPower > 0) {
-                        robot.armMotor.setPower(Math.abs(armPower));
-                    }
-                   else if (armPower < 0) {
-                        robot.armMotor.setPower(-Math.abs(armPower));
-                    }
-                   else {
-                       robot.armMotor.setPower(0);
-                    }
+            if (armPower > 0) {
+                robot.armMotor.setPower(Math.abs(armPower));
+            } else if (armPower < 0) {
+                robot.armMotor.setPower(-Math.abs(armPower));
+            } else {
+                robot.armMotor.setPower(0);
+            }
+
+                               /*
+            gets the current Position (x & y in mm, and heading in degrees) of the robot, and prints it.
+             */
+            Pose2D pos = robot.odometer.getPosition();
+            String data = String.format(Locale.US, "{X: %.3f, Y: %.3f, H: %.3f}", pos.getX(DistanceUnit.MM), pos.getY(DistanceUnit.MM), pos.getHeading(AngleUnit.DEGREES));
+            telemetry.addData("Position", data);
+
+            /*
+            gets the current Velocity (x & y in mm/sec and heading in degrees/sec) and prints it.
+             */
+            String velocity = String.format(Locale.US, "{XVel: %.3f, YVel: %.3f, HVel: %.3f}", robot.odometer.getVelX(DistanceUnit.MM), robot.odometer.getVelY(DistanceUnit.MM), robot.odometer.getHeadingVelocity(UnnormalizedAngleUnit.DEGREES));
+            telemetry.addData("Velocity", velocity);
 
             //telemetry
             telemetry.addData("Status", "Run Time: " + runtime.toString());
-            telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower,    rightFrontPower);
+            telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower);
             telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
             telemetry.addData("Arm power: ", "%4.2f", armPower);
-            telemetry.addData("Arm position:",robot.armMotor.getCurrentPosition());
-            telemetry.addData("Tilter position:",robot.tilterServo.getPosition());
-            telemetry.addData("Grabber position",robot.grabberServo.getPosition());
+            telemetry.addData("Arm position:", robot.armMotor.getCurrentPosition());
+            telemetry.addData("Tilter position:", robot.tilterServo.getPosition());
+            telemetry.addData("Grabber position", robot.grabberServo.getPosition());
+
+
+            telemetry.addData("Status", robot.odometer.getDeviceStatus());
+
+            telemetry.addData("Pinpoint Frequency", robot.odometer.getFrequency()); //prints/gets the current refresh rate of the Pinpoint
+
+//            telemetry.addData("REV Hub Frequency: ", frequency); //prints the control system refresh rate
             telemetry.addData("Odometer X", robot.odometer.getPosition());
             telemetry.addData("Odometer Y", robot.odometer.getPosition());
             telemetry.update();
