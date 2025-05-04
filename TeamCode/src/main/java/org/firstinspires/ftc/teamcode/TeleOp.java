@@ -69,7 +69,7 @@ import java.util.Locale;
  */
 // KEEP REV OPEN WHEN PUSHING
 
-@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "TeleOp_v52", group = "Linear OpMode")
+@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "TeleOp_v53", group = "Linear OpMode")
 public class TeleOp extends LinearOpMode {
 
     RobotMethods robot = new RobotMethods();
