@@ -37,6 +37,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 
 public class RobotMethods {
     public DcMotor leftFrontDrive = null;
@@ -90,6 +91,28 @@ public class RobotMethods {
         hangingMotor.setDirection(DcMotor.Direction.FORWARD);
         armMotor.setDirection(DcMotor.Direction.REVERSE);
         armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+    }
+
+    public void runToOdometerPosition(Pose2D targetPosition,double power){
+        Pose2D currentPosition = odometer.getPosition();
+//telemetry - current pos
+        //tel - target
+        while (currentPosition.getY(DistanceUnit.CM) < targetPosition.getY(DistanceUnit.CM) ){
+            leftFrontDrive.setPower(Math.abs(power) * 0.75);
+            leftBackDrive.setPower(Math.abs(power) * 0.75);
+            rightFrontDrive.setPower(Math.abs(power) * 0.75);
+            rightBackDrive.setPower(Math.abs(power) * 0.75);
+
+            currentPosition = odometer.getPosition();
+        }
+
+//        while (leftFrontDrive.isBusy() && leftBackDrive.isBusy() && rightFrontDrive.isBusy() && rightBackDrive.isBusy()) {
+//
+//        }
+        leftFrontDrive.setPower(0);
+        leftBackDrive.setPower(0);
+        rightFrontDrive.setPower(0);
+        rightBackDrive.setPower(0);
     }
 
     public void drive ( double distance, double power){
