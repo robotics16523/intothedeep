@@ -69,7 +69,7 @@ import java.util.Locale;
  */
 // KEEP REV OPEN WHEN PUSHING
 
-@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "TeleOp_v54", group = "Linear OpMode")
+@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "TeleOp_v55", group = "Linear OpMode")
 public class TeleOp extends LinearOpMode {
 
     RobotMethods robot = new RobotMethods();
@@ -119,10 +119,10 @@ public class TeleOp extends LinearOpMode {
                 leftBackPower /= max;
                 rightBackPower /= max;
             }
-            robot.leftFrontDrive.setPower(leftFrontPower * 0.65);
-            robot.leftBackDrive.setPower(leftBackPower * 0.65);
-            robot.rightFrontDrive.setPower(rightFrontPower * 0.65);
-            robot.rightBackDrive.setPower(rightBackPower * 0.65);
+            robot.leftFrontDrive.setPower(leftFrontPower * 0.6);
+            robot.leftBackDrive.setPower(leftBackPower * 0.6);
+            robot.rightFrontDrive.setPower(rightFrontPower * 0.6);
+            robot.rightBackDrive.setPower(rightBackPower * 0.6);
 
             if (gamepad2.left_bumper) {
                 robot.grabberServo.setPosition(robot.GRABBER_OPEN);
@@ -148,6 +148,11 @@ public class TeleOp extends LinearOpMode {
 
             if (gamepad2.back) {
                 robot.tilterServo.setPosition(robot.TILTER_MIDDLE);
+                robot.grabberServo.setPosition(robot.GRABBER_OPEN);
+                robot.lowerArm(.9,.2);
+                robot.tilterServo.setPosition(robot.TILTER_UP);
+                robot.driveBackward(5,.7);
+                robot.raiseArm(.9,.5);
             }
 
             double armPower = gamepad2.left_stick_y;
